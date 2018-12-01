@@ -1,7 +1,8 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Sergey Dmitriev](https://up.htmlacademy.ru/javascript/16/user/768817).
-* Наставник: `[Динар Гиндулин](https://htmlacademy.ru/profile/id884587)`.
+* Наставник: [Динар Гиндулин](https://htmlacademy.ru/profile/id884587).
+
 
 ---
 
