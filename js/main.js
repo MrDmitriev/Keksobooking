@@ -105,7 +105,7 @@ function getRandomPropertyConfigs() {
 
 var properties = getRandomPropertyConfigs();
 
-function renderFeaturesLists(property, template) {
+function hideUnusedFeatures(property, template) {
   for (var i = 0; i < FEATURES.length; i++) {
     var array = properties[i].offer.features;
     var element = FEATURES[i];
@@ -189,7 +189,7 @@ function createCardElement(property) {
   cardElement.querySelector('.popup__type').textContent = getPropertyType(property);
   cardElement.querySelector('.popup__text--capacity').textContent = property.offer.rooms + ' комнаты для ' + property.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + property.offer.checkin + ', выезд до ' + property.offer.checkout;
-  renderFeaturesLists(property, cardElement);
+  hideUnusedFeatures(property, cardElement);
   cardElement.querySelector('.popup__description').textContent = property.offer.description;
   createPhotosLibrary(property, cardElement);
   cardElement.querySelector('.popup__avatar').src = property.author.avatar;
