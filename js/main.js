@@ -1,4 +1,5 @@
 'use strict';
+
 function getRandomItem(items) {
   return (Math.floor(Math.random() * items.length));
 }
