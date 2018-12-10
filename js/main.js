@@ -1,4 +1,31 @@
 'use strict';
+var ROOMS_MIN = 1;
+var ROOMS_MAX = 5;
+var GUESTS_MIN = 1;
+var GUESTS_MAX = 15;
+var PRICE_MIN = 1000;
+var PRICE_MAX = 1000000;
+var ADDRES_X_INT_MIN = 100;
+var ADDRES_X_INT_MAX = 500;
+var ADDRES_Y_INT_MIN = 130;
+var ADDRES_Y_INT_MAX = 630;
+var PROPERTY_NUMBER = 8;
+var PHOTOS_NUMBER = 3;
+var PHOTOS = getPhotoUrls();
+var CHECK_IN_OUT_OPTIONS = ['12:00', '13:00', '14:00'];
+var PROPERTY_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var AVATARS = getAvatarUrls();
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var PROPERTY_TITLES = [
+  'Большая уютная квартира',
+  'Маленькая неуютная квартира',
+  'Огромный прекрасный дворец',
+  'Маленький ужасный дворец',
+  'Красивый гостевой домик',
+  'Некрасивый негостеприимный домик',
+  'Уютное бунгало далеко от моря',
+  'Неуютное бунгало по колено в воде'
+];
 
 function getRandomItem(items) {
   return (Math.floor(Math.random() * items.length));
@@ -9,12 +36,20 @@ function compareRandom() {
 }
 
 function getRandomElementOrder(massive) {
-  var sortedMassive = massive.slice(0, massive.length);
+  var sortedMassive = massive.slice();
   sortedMassive.sort(compareRandom);
   return sortedMassive;
 }
 
-function getPhotosUrls() {
+function getPhotoUrls() {
+  var orderedMass = [];
+  for (var i = 1; i <= 3; i++) {
+    orderedMass.push('http://o0.github.io/assets/images/tokyo/hotel' + i + '.jpg');
+  }
+  return orderedMass;
+}
+
+function getAvatarUrls() {
   var orderedMassive = [];
   for (var i = 1; i <= PROPERTY_NUMBER; i++) {
     orderedMassive.push('img/avatars/user0' + i + '.png');
@@ -34,45 +69,14 @@ function getRandomLengthMassive(massive) {
   }
   return randomLengthMassive;
 }
-var ROOMS_MIN = 1;
-var ROOMS_MAX = 5;
-var GUESTS_MIN = 1;
-var GUESTS_MAX = 15;
-var PRICE_MIN = 1000;
-var PRICE_MAX = 1000000;
-var ADDRES_X_INT_MIN = 100;
-var ADDRES_X_INT_MAX = 500;
-var ADDRES_Y_INT_MIN = 130;
-var ADDRES_Y_INT_MAX = 630;
-var PROPERTY_NUMBER = 8;
-var PHOTOS_NUMBER = 3;
-var PHOTOS = [
-  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
-];
-var CHECK_IN_OUT_OPTIONS = ['12:00', '13:00', '14:00'];
-var PROPERTY_TYPES = ['palace', 'flat', 'house', 'bungalo'];
-var AVATARS = getPhotosUrls();
-var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var PROPERTY_TITLES = [
-  'Большая уютная квартира',
-  'Маленькая неуютная квартира',
-  'Огромный прекрасный дворец',
-  'Маленький ужасный дворец',
-  'Красивый гостевой домик',
-  'Некрасивый негостеприимный домик',
-  'Уютное бунгало далеко от моря',
-  'Неуютное бунгало по колено в воде'
-];
 
 function getRandomPropertyConfigs() {
   var randomAvatars = getRandomElementOrder(AVATARS);
   var randomTitles = getRandomElementOrder(PROPERTY_TITLES);
   var randomPhoto = getRandomElementOrder(PHOTOS);
   var randomPropertyMassive = [];
-  for (var i = 0; i < PROPERTY_NUMBER; i++) {
 
+  for (var i = 0; i < PROPERTY_NUMBER; i++) {
     randomPropertyMassive.push({
       'author': {
         'avatar': randomAvatars[i],
@@ -101,7 +105,6 @@ function getRandomPropertyConfigs() {
 
 var properties = getRandomPropertyConfigs();
 
-// Функция для отрисовки списка Features
 function renderFeaturesLists(property, template) {
   for (var i = 0; i < FEATURES.length; i++) {
     var array = properties[i].offer.features;

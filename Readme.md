@@ -3,7 +3,6 @@
 * Студент: [Sergey Dmitriev](https://up.htmlacademy.ru/javascript/16/user/768817).
 * Наставник: [Динар Гиндулин](https://htmlacademy.ru/profile/id884587).
 
-
 ---
 
 _Не удаляйте и не обращайте внимание на файлы:_<br>
