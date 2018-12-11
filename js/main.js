@@ -129,14 +129,14 @@ function createPinElement(property) {
   return similarPinTemplateButton;
 }
 
-function createPinsList(property) {
+function createPinsList(properties) {
   var map = document.querySelector('.map');
   map.classList.remove('map--faded');
   var similarListElement = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < property.length; i++) {
-    fragment.appendChild(createPinElement(property[i]));
+  for (var i = 0; i < properties.length; i++) {
+    fragment.appendChild(createPinElement(properties[i]));
   }
 
   similarListElement.appendChild(fragment);
@@ -195,12 +195,12 @@ function createCardElement(property) {
   return cardElement;
 }
 
-function createCardsList(property) {
+function createCardsList(properties) {
   var similarCardsListElement = document.querySelector('.map');
   var fragmentCards = document.createDocumentFragment();
-  for (var i = 0; i < property.length; i++) {
-    fragmentCards.appendChild(createCardElement(property[i]));
-  }
+
+  fragmentCards.appendChild(createCardElement(properties[0]));
+
 
   similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
 }
