@@ -43,7 +43,7 @@ function getRandomElementOrder(massive) {
 
 function getPhotoUrls() {
   var orderedMass = [];
-  for (var i = 1; i <= 3; i++) {
+  for (var i = 1; i <= PHOTOS_NUMBER; i++) {
     orderedMass.push('http://o0.github.io/assets/images/tokyo/hotel' + i + '.jpg');
   }
   return orderedMass;
@@ -103,11 +103,9 @@ function getRandomPropertyConfigs() {
   return randomPropertyMassive;
 }
 
-var properties = getRandomPropertyConfigs();
-
 function hideUnusedFeatures(property, template) {
   for (var i = 0; i < FEATURES.length; i++) {
-    var array = properties[i].offer.features;
+    var array = property.offer.features;
     var element = FEATURES[i];
     var idx = array.indexOf(element);
     if (idx === -1) {
@@ -131,14 +129,14 @@ function createPinElement(property) {
   return similarPinTemplateButton;
 }
 
-function createPinsList() {
+function createPinsList(property) {
   var map = document.querySelector('.map');
   map.classList.remove('map--faded');
   var similarListElement = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < properties.length; i++) {
-    fragment.appendChild(createPinElement(properties[i]));
+  for (var i = 0; i < property.length; i++) {
+    fragment.appendChild(createPinElement(property[i]));
   }
 
   similarListElement.appendChild(fragment);
@@ -197,15 +195,20 @@ function createCardElement(property) {
   return cardElement;
 }
 
-function createCardsList() {
+function createCardsList(property) {
   var similarCardsListElement = document.querySelector('.map');
   var fragmentCards = document.createDocumentFragment();
-  for (var i = 0; i < properties.length; i++) {
-    fragmentCards.appendChild(createCardElement(properties[i]));
+  for (var i = 0; i < property.length; i++) {
+    fragmentCards.appendChild(createCardElement(property[i]));
   }
 
   similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
 }
+function createPropertiesMap() {
+  var properties = getRandomPropertyConfigs();
 
-createPinsList();
-createCardsList();
+  createPinsList(properties);
+  createCardsList(properties);
+}
+
+createPropertiesMap();
