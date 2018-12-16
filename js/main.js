@@ -1,4 +1,7 @@
 'use strict';
+var ESC_KEYCODE = 27;
+var MAIN_PIN_X = 570;
+var MAIN_PIN_Y = 357;
 var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
@@ -9,7 +12,7 @@ var ADDRES_X_INT_MIN = 100;
 var ADDRES_X_INT_MAX = 500;
 var ADDRES_Y_INT_MIN = 130;
 var ADDRES_Y_INT_MAX = 630;
-var PROPERTY_NUMBER = 8;
+var NUMBER_OF_PROPERTY_CARDS = 8;
 var PHOTOS_NUMBER = 3;
 var PHOTOS = getPhotoUrls();
 var CHECK_IN_OUT_OPTIONS = ['12:00', '13:00', '14:00'];
@@ -51,7 +54,7 @@ function getPhotoUrls() {
 
 function getAvatarUrls() {
   var orderedMassive = [];
-  for (var i = 1; i <= PROPERTY_NUMBER; i++) {
+  for (var i = 1; i <= NUMBER_OF_PROPERTY_CARDS; i++) {
     orderedMassive.push('img/avatars/user0' + i + '.png');
   }
   return orderedMassive;
@@ -76,7 +79,7 @@ function getRandomPropertyConfigs() {
   var randomPhoto = getRandomElementOrder(PHOTOS);
   var randomPropertyMassive = [];
 
-  for (var i = 0; i < PROPERTY_NUMBER; i++) {
+  for (var i = 0; i < NUMBER_OF_PROPERTY_CARDS; i++) {
     randomPropertyMassive.push({
       'author': {
         'avatar': randomAvatars[i],
@@ -116,32 +119,6 @@ function hideUnusedFeatures(property, template) {
   }
 }
 
-function createPinElement(property) {
-  var similarPinTemplate = document.querySelector('#pin');
-  var pinElement = similarPinTemplate.cloneNode(true);
-  var similarPinTemplateButton = pinElement.content.querySelector('.map__pin');
-  var buttonAvatar = similarPinTemplateButton.querySelector('img');
-  similarPinTemplateButton.style.left = property.location.x + 'px';
-  similarPinTemplateButton.style.top = property.location.y + 'px';
-  buttonAvatar.src = property.author.avatar;
-  buttonAvatar.alt = property.offer.title;
-
-  return similarPinTemplateButton;
-}
-
-function createPinsList(properties) {
-  var map = document.querySelector('.map');
-  map.classList.remove('map--faded');
-  var similarListElement = document.querySelector('.map__pins');
-  var fragment = document.createDocumentFragment();
-
-  for (var i = 0; i < properties.length; i++) {
-    fragment.appendChild(createPinElement(properties[i]));
-  }
-
-  similarListElement.appendChild(fragment);
-}
-
 function getPropertyType(property) {
   var textContent = '';
   if (property.offer.type === 'flat') {
@@ -178,9 +155,60 @@ function createPhotosLibrary(property, template) {
   template.appendChild(similarPhotoTemplate);
 }
 
+function openPopup() {
+  var mapCard = document.querySelector('.map__card');
+  mapCard.classList.remove('hidden');
+  window.addEventListener('keydown', onPopupEscPress);
+}
+
+var closePopup = function () {
+  var mapCard = document.querySelector('.map__card');
+  mapCard.classList.add('hidden');
+  window.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+function rewriteCardElement(property) {
+  var oldArticle = document.querySelector('.map__card');
+  var newArticle = createCardElement(property);
+  var parentArticle = document.querySelector('.map');
+  parentArticle.replaceChild(newArticle, oldArticle);
+}
+
+function createPinElement(property) {
+  var similarPinTemplate = document.querySelector('#pin');
+  var pinElement = similarPinTemplate.cloneNode(true);
+  var similarPinTemplateButton = pinElement.content.querySelector('.map__pin');
+  var buttonAvatar = similarPinTemplateButton.querySelector('img');
+  similarPinTemplateButton.style.left = property.location.x + 'px';
+  similarPinTemplateButton.style.top = property.location.y + 'px';
+  buttonAvatar.src = property.author.avatar;
+  buttonAvatar.alt = property.offer.title;
+  similarPinTemplateButton.addEventListener('click', function () {
+    rewriteCardElement(property);
+    openPopup();
+  });
+
+  return similarPinTemplateButton;
+}
+
+function createPinsList(properties) {
+  var similarListElement = document.querySelector('.map__pins');
+  var fragment = document.createDocumentFragment();
+
+  fragment.appendChild(createPinElement(properties));
+  similarListElement.appendChild(fragment);
+}
+
 function createCardElement(property) {
   var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var cardElement = similarCardTemplate.cloneNode(true);
+  var mapClose = cardElement.querySelector('.popup__close');
   cardElement.querySelector('.popup__title').textContent = property.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = property.offer.address;
   cardElement.querySelector('.popup__text--price').textContent = property.offer.price + '₽/ночь';
@@ -191,6 +219,10 @@ function createCardElement(property) {
   cardElement.querySelector('.popup__description').textContent = property.offer.description;
   createPhotosLibrary(property, cardElement);
   cardElement.querySelector('.popup__avatar').src = property.author.avatar;
+  cardElement.classList.add('hidden');
+  mapClose.addEventListener('click', function () {
+    cardElement.classList.add('hidden');
+  });
 
   return cardElement;
 }
@@ -199,16 +231,46 @@ function createCardsList(properties) {
   var similarCardsListElement = document.querySelector('.map');
   var fragmentCards = document.createDocumentFragment();
 
-  fragmentCards.appendChild(createCardElement(properties[0]));
-
-
+  fragmentCards.appendChild(createCardElement(properties));
   similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
 }
-function createPropertiesMap() {
-  var properties = getRandomPropertyConfigs();
 
-  createPinsList(properties);
-  createCardsList(properties);
+function changeFormCondition(isHidden) {
+  var adFormDiv = document.querySelector('.ad-form');
+  var fieldsets = adFormDiv.querySelectorAll('fieldset');
+  for (var i = 0; i < fieldsets.length; i++) {
+    fieldsets[i].disabled = isHidden;
+  }
 }
 
-createPropertiesMap();
+function setElementCoordinates(element, x, y) {
+  var notice = document.querySelector('.notice');
+  var address = notice.querySelector('#address');
+  address.value = x + ', ' + y;
+}
+
+function createPropertyMap() {
+  var properties = getRandomPropertyConfigs();
+  for (var i = 0; i < NUMBER_OF_PROPERTY_CARDS; i++) {
+    createPinsList(properties[i]);
+  }
+  createCardsList(properties[1]);
+}
+
+function activateMap() {
+  var mapMainPin = document.querySelector('.map__pin--main');
+  var notice = document.querySelector('.notice');
+  var address = notice.querySelector('#address');
+  setElementCoordinates(address, MAIN_PIN_X, MAIN_PIN_Y);
+  mapMainPin.addEventListener('mouseup', function () {
+    var map = document.querySelector('.map');
+    var adForm = notice.querySelector('form');
+    createPropertyMap();
+    changeFormCondition(false);
+    map.classList.remove('map--faded');
+    adForm.classList.remove('ad-form--disabled');
+  });
+}
+
+changeFormCondition(true);
+activateMap();
