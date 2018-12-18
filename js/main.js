@@ -30,6 +30,26 @@ var PROPERTY_TITLES = [
   'Неуютное бунгало по колено в воде'
 ];
 
+var TYPE_TO_MIN_PRICE = {
+  'bungalo': '0',
+  'flat': '1000',
+  'house': '5000',
+  'palace': '10000'
+};
+
+var ROOMS_TO_AVAILABLE_GUESTS = {
+  '1': ['1'],
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100': ['0']
+};
+
+var TIME_IN_OUT = {
+  '12:00': 0,
+  '13:00': 1,
+  '14:00': 2,
+};
+
 function getRandomItem(items) {
   return (Math.floor(Math.random() * items.length));
 }
@@ -243,9 +263,8 @@ function changeFormCondition(isHidden) {
   }
 }
 
-function setElementCoordinates(element, x, y) {
-  var notice = document.querySelector('.notice');
-  var address = notice.querySelector('#address');
+function setAddress(x, y) {
+  var address = document.querySelector('#address');
   address.value = x + ', ' + y;
 }
 
@@ -257,14 +276,62 @@ function createPropertyMap() {
   createCardsList(properties[1]);
 }
 
+function setElementsValidation() {
+  var type = document.querySelector('#type');
+  var roomsSelection = document.querySelector('#room_number');
+  var timeIn = document.querySelector('#timein');
+  var timeOut = document.querySelector('#timeout');
+
+  type.addEventListener('change', setMinPropertyPrice);
+  roomsSelection.addEventListener('change', setGuestsNumber);
+  timeIn.addEventListener('change', setTimeOut);
+  timeOut.addEventListener('change', setTimeIn);
+}
+
+var setMinPropertyPrice = function (event) {
+  var price = document.querySelector('#price');
+  var typeValue = event.target.value;
+  price.min = TYPE_TO_MIN_PRICE[typeValue];
+  price.placeholder = TYPE_TO_MIN_PRICE[typeValue];
+};
+
+var setGuestsNumber = function (event) {
+  var roomsNumber = event.target.value;
+  var capacity = document.querySelector('#capacity');
+  var capacityOptions = capacity.querySelectorAll('option');
+  var guestsNumberAvailable = ROOMS_TO_AVAILABLE_GUESTS[roomsNumber];
+  capacityOptions.forEach(function (option) {
+    var idx = guestsNumberAvailable.indexOf(option.value);
+    option.disabled = idx === -1;
+  });
+  capacity.disabled = false;
+  capacityOptions[0].selected = true;
+};
+
+var setTimeOut = function (event) {
+  var timeIn = event.target.value;
+  var timeout = document.querySelector('#timeout');
+  var timeoutOptions = timeout.querySelectorAll('option');
+  var timeInAvailable = TIME_IN_OUT[timeIn];
+  timeoutOptions[timeInAvailable].selected = true;
+};
+
+var setTimeIn = function (event) {
+  var timeOut = event.target.value;
+  var timein = document.querySelector('#timein');
+  var timeinOptions = timein.querySelectorAll('option');
+  var timeOutAvailable = TIME_IN_OUT[timeOut];
+  timeinOptions[timeOutAvailable].selected = true;
+};
+
 function activateMap() {
   var mapMainPin = document.querySelector('.map__pin--main');
   var notice = document.querySelector('.notice');
-  var address = notice.querySelector('#address');
-  setElementCoordinates(address, MAIN_PIN_X, MAIN_PIN_Y);
+  setAddress(MAIN_PIN_X, MAIN_PIN_Y);
   mapMainPin.addEventListener('mouseup', function () {
     var map = document.querySelector('.map');
     var adForm = notice.querySelector('form');
+    setElementsValidation();
     createPropertyMap();
     changeFormCondition(false);
     map.classList.remove('map--faded');
