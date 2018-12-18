@@ -341,3 +341,5 @@ function activateMap() {
 
 changeFormCondition(true);
 activateMap();
+
+
