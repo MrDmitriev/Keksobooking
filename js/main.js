@@ -1,6 +1,10 @@
 'use strict';
+var MAP_OVERLAY_WIDTH = 1200;
+var MAIN_PIN_HEIGHT = 65;
+var MAIN_PIN_WIDTH = 65;
 var ESC_KEYCODE = 27;
 var MAIN_PIN_X = 570;
+var MAX_PIN_DRAG_TOP = 630;
 var MAIN_PIN_Y = 357;
 var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
@@ -324,20 +328,77 @@ var setTimeIn = function (event) {
   timeinOptions[timeOutAvailable].selected = true;
 };
 
+function activatePins() {
+  var map = document.querySelector('.map');
+  var adForm = document.querySelector('.notice').querySelector('form');
+  setElementsValidation();
+  createPropertyMap();
+  changeFormCondition(false);
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+}
+
 function activateMap() {
   var mapMainPin = document.querySelector('.map__pin--main');
-  var notice = document.querySelector('.notice');
+  var mapOverlay = document.querySelector('.map__overlay');
   setAddress(MAIN_PIN_X, MAIN_PIN_Y);
-  mapMainPin.addEventListener('mouseup', function () {
-    var map = document.querySelector('.map');
-    var adForm = notice.querySelector('form');
-    setElementsValidation();
-    createPropertyMap();
-    changeFormCondition(false);
-    map.classList.remove('map--faded');
-    adForm.classList.remove('ad-form--disabled');
+
+  mapMainPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      var newCoordY = mapMainPin.offsetTop - shift.y;
+      var newCoordX = mapMainPin.offsetLeft - shift.x;
+      var newCoordXLimit = MAP_OVERLAY_WIDTH - MAIN_PIN_WIDTH;
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      if (newCoordY < MAIN_PIN_HEIGHT) {
+        newCoordY = MAIN_PIN_HEIGHT;
+      } else if (newCoordY > MAX_PIN_DRAG_TOP) {
+        newCoordY = MAX_PIN_DRAG_TOP;
+      }
+
+      if (newCoordX < mapOverlay.offsetLeft) {
+        newCoordX = mapOverlay.offsetLeft;
+      } else if (newCoordX > newCoordXLimit) {
+        newCoordX = newCoordXLimit;
+      }
+      mapMainPin.style.top = (newCoordY) + 'px';
+      mapMainPin.style.left = (newCoordX) + 'px';
+      setAddress(newCoordX, newCoordY);
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      if (document.querySelector('.map--faded')) {
+        activatePins();
+      }
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
 }
 
 changeFormCondition(true);
 activateMap();
+
