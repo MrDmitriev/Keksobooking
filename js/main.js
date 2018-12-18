@@ -338,6 +338,12 @@ function activatePins() {
   adForm.classList.remove('ad-form--disabled');
 }
 
+function isMapActivated() {
+  if (document.querySelector('.map--faded')) {
+    activatePins();
+  }
+}
+
 function activateMap() {
   var mapMainPin = document.querySelector('.map__pin--main');
   var mapOverlay = document.querySelector('.map__overlay');
@@ -386,12 +392,9 @@ function activateMap() {
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      if (document.querySelector('.map--faded')) {
-        activatePins();
-      }
+      isMapActivated();
     };
 
     document.addEventListener('mousemove', onMouseMove);
