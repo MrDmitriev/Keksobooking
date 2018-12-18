@@ -100,11 +100,11 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="title">Заголовок объявления</label>
-          <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио" minLength = '30' maxLength = '100' required>
+          <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес</label>
-          <input id="address" name="address" type="text" readonly>
+          <input id="address" name="address" type="text">
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -117,7 +117,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="5000" max = '1000000' required>
+          <input id="price" name="price" type="number" placeholder="5000">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -134,9 +134,8 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="room_number">Кол-во комнат</label>
-          <select id="room_number" name="rooms" required>
-            <option value ="" disabled selected>Выбрать</option>
-            <option value="1">1 комната</option>
+          <select id="room_number" name="rooms">
+            <option value="1" selected>1 комната</option>
             <option value="2">2 комнаты</option>
             <option value="3">3 комнаты</option>
             <option value="100">100 комнат</option>
@@ -144,9 +143,8 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="capacity">Количество мест</label>
-          <select id="capacity" name="capacity" disabled required>
-            <option value ="" disabled selected>Выбрать</option>
-            <option value="3">для 3 гостей</option>
+          <select id="capacity" name="capacity">
+            <option value="3" selected>для 3 гостей</option>
             <option value="2">для 2 гостей</option>
             <option value="1">для 1 гостя</option>
             <option value="0">не для гостей</option>
