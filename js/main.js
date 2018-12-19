@@ -1,5 +1,5 @@
 'use strict';
-var MAIN_PIN_HEIGHT = 62;
+var MAIN_PIN_HEIGHT = 84;
 var MAIN_PIN_WIDTH = 62;
 var ESC_KEYCODE = 27;
 var MAIN_PIN_X = 570;
@@ -12,7 +12,7 @@ var PRICE_MIN = 1000;
 var PRICE_MAX = 1000000;
 var ADDRESS_X_INT_MIN = 100;
 var ADDRESS_X_INT_MAX = 500;
-var ADDRESS_Y_INT_MIN = 130;
+var ADDRESS_Y_INT_MIN = 131;
 var ADDRESS_Y_INT_MAX = 630;
 var NUMBER_OF_PROPERTY_CARDS = 8;
 var PHOTOS_NUMBER = 3;
@@ -207,8 +207,8 @@ function createPinElement(property) {
   var pinElement = similarPinTemplate.cloneNode(true);
   var similarPinTemplateButton = pinElement.content.querySelector('.map__pin');
   var buttonAvatar = similarPinTemplateButton.querySelector('img');
-  similarPinTemplateButton.style.left = property.location.x + 'px';
-  similarPinTemplateButton.style.top = property.location.y + 'px';
+  similarPinTemplateButton.style.left = property.location.x - MAIN_PIN_WIDTH / 2 + 'px';
+  similarPinTemplateButton.style.top = property.location.y - MAIN_PIN_HEIGHT + 'px';
   buttonAvatar.src = property.author.avatar;
   buttonAvatar.alt = property.offer.title;
   similarPinTemplateButton.addEventListener('click', function () {
@@ -259,7 +259,8 @@ function createCardsList(properties) {
 
 var onResetClick = function (evt) {
   evt.preventDefault();
-  location.reload();
+  var selectType = document.querySelector('#type');
+  selectType.reset();
 };
 
 function changeFormCondition(isHidden) {
@@ -355,6 +356,10 @@ function isMapActivated() {
 
 function initializeMap() {
   var mapMainPin = document.querySelector('.map__pin--main');
+  var mapPn = document.querySelector('.map');
+  var mapCoord = mapPn.getBoundingClientRect();
+  var mapWidthLim = mapCoord.width - MAIN_PIN_WIDTH;
+
   setAddress(MAIN_PIN_X, MAIN_PIN_Y);
 
   mapMainPin.addEventListener('mousedown', function (evt) {
@@ -373,15 +378,13 @@ function initializeMap() {
         y: startCoords.y - moveEvt.clientY
       };
 
-      var map = document.querySelector('.map');
-      var mapWidth = map.width;
       var newCoordY = mapMainPin.offsetTop - shift.y;
       var newCoordX = mapMainPin.offsetLeft - shift.x;
-      var mapCoords = map.getBoundingClientRect();
-      var coordinationLimitTop = ADDRESS_Y_INT_MIN;
-      var coordinationLimitBottom = ADDRESS_Y_INT_MAX;
-      var coordinationLimitLeft = mapCoords.left;
-      var coordinationLimitRight = 1100;
+      var coordinationLimitTop = ADDRESS_Y_INT_MIN - MAIN_PIN_HEIGHT;
+      var coordinationLimitBottom = ADDRESS_Y_INT_MAX - MAIN_PIN_HEIGHT;
+
+      var correctX = newCoordX + MAIN_PIN_WIDTH;
+      var correctY = newCoordY + MAIN_PIN_HEIGHT;
 
       startCoords = {
         x: moveEvt.clientX,
@@ -394,15 +397,15 @@ function initializeMap() {
         newCoordY = coordinationLimitBottom;
       }
 
-      if (newCoordX < coordinationLimitLeft) {
-        newCoordX = coordinationLimitLeft;
-      } else if (newCoordX > coordinationLimitRight) {
-        newCoordX = coordinationLimitRight;
+      if (newCoordX < 0) {
+        newCoordX = 0;
+      } else if (newCoordX > mapWidthLim) {
+        newCoordX = mapWidthLim;
       }
 
       mapMainPin.style.top = newCoordY + 'px';
       mapMainPin.style.left = newCoordX + 'px';
-      setAddress(newCoordX, newCoordY);
+      setAddress(correctX, correctY);
     };
 
     var onMouseUp = function (upEvt) {
