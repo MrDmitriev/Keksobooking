@@ -1,21 +1,19 @@
 'use strict';
-var MAP_OVERLAY_WIDTH = 1200;
-var MAIN_PIN_HEIGHT = 65;
-var MAIN_PIN_WIDTH = 65;
+var MAIN_PIN_HEIGHT = 62;
+var MAIN_PIN_WIDTH = 62;
 var ESC_KEYCODE = 27;
 var MAIN_PIN_X = 570;
-var MAX_PIN_DRAG_TOP = 630;
 var MAIN_PIN_Y = 357;
 var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
-var GUESTS_MAX = 15;
+var GUESTS_MAX = 3;
 var PRICE_MIN = 1000;
 var PRICE_MAX = 1000000;
-var ADDRES_X_INT_MIN = 100;
-var ADDRES_X_INT_MAX = 500;
-var ADDRES_Y_INT_MIN = 130;
-var ADDRES_Y_INT_MAX = 630;
+var ADDRESS_X_INT_MIN = 100;
+var ADDRESS_X_INT_MAX = 500;
+var ADDRESS_Y_INT_MIN = 130;
+var ADDRESS_Y_INT_MAX = 630;
 var NUMBER_OF_PROPERTY_CARDS = 8;
 var PHOTOS_NUMBER = 3;
 var PHOTOS = getPhotoUrls();
@@ -110,7 +108,7 @@ function getRandomPropertyConfigs() {
       },
       'offer': {
         'title': randomTitles[i],
-        'address': (getRandomInt(ADDRES_X_INT_MIN, ADDRES_X_INT_MAX) + ', ' + getRandomInt(ADDRES_Y_INT_MIN, ADDRES_Y_INT_MAX)),
+        'address': (getRandomInt(ADDRESS_X_INT_MIN, ADDRESS_X_INT_MAX) + ', ' + getRandomInt(ADDRESS_Y_INT_MIN, ADDRESS_Y_INT_MAX)),
         'price': getRandomInt(PRICE_MIN, PRICE_MAX),
         'type': PROPERTY_TYPES[getRandomItem(PROPERTY_TYPES)],
         'rooms': getRandomInt(ROOMS_MIN, ROOMS_MAX),
@@ -122,8 +120,8 @@ function getRandomPropertyConfigs() {
         'photos': randomPhoto
       },
       'location': {
-        'x': getRandomInt(ADDRES_X_INT_MIN, ADDRES_X_INT_MAX),
-        'y': getRandomInt(ADDRES_Y_INT_MIN, ADDRES_Y_INT_MAX)
+        'x': getRandomInt(ADDRESS_X_INT_MIN, ADDRESS_X_INT_MAX),
+        'y': getRandomInt(ADDRESS_Y_INT_MIN, ADDRESS_Y_INT_MAX)
       }
     });
   }
@@ -259,9 +257,18 @@ function createCardsList(properties) {
   similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
 }
 
+var onResetClick = function (evt) {
+  evt.preventDefault();
+  location.reload();
+};
+
 function changeFormCondition(isHidden) {
   var adFormDiv = document.querySelector('.ad-form');
   var fieldsets = adFormDiv.querySelectorAll('fieldset');
+  var adForm = document.querySelector('.notice').querySelector('form');
+  adForm.classList.toggle('ad-form--disabled', isHidden);
+  var resetForm = adForm.querySelector('.ad-form__reset');
+  resetForm.addEventListener('click', onResetClick);
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].disabled = isHidden;
   }
@@ -328,25 +335,26 @@ var setTimeIn = function (event) {
   timeinOptions[timeOutAvailable].selected = true;
 };
 
-function activatePins() {
+function removerMapFading() {
   var map = document.querySelector('.map');
-  var adForm = document.querySelector('.notice').querySelector('form');
+  map.classList.remove('map--faded');
+}
+
+function activatePage() {
   setElementsValidation();
   createPropertyMap();
   changeFormCondition(false);
-  map.classList.remove('map--faded');
-  adForm.classList.remove('ad-form--disabled');
+  removerMapFading();
 }
 
 function isMapActivated() {
   if (document.querySelector('.map--faded')) {
-    activatePins();
+    activatePage();
   }
 }
 
-function activateMap() {
+function initializeMap() {
   var mapMainPin = document.querySelector('.map__pin--main');
-  var mapOverlay = document.querySelector('.map__overlay');
   setAddress(MAIN_PIN_X, MAIN_PIN_Y);
 
   mapMainPin.addEventListener('mousedown', function (evt) {
@@ -365,28 +373,35 @@ function activateMap() {
         y: startCoords.y - moveEvt.clientY
       };
 
+      var map = document.querySelector('.map');
+      var mapWidth = map.width;
       var newCoordY = mapMainPin.offsetTop - shift.y;
       var newCoordX = mapMainPin.offsetLeft - shift.x;
-      var newCoordXLimit = MAP_OVERLAY_WIDTH - MAIN_PIN_WIDTH;
+      var mapCoords = map.getBoundingClientRect();
+      var coordinationLimitTop = ADDRESS_Y_INT_MIN;
+      var coordinationLimitBottom = ADDRESS_Y_INT_MAX;
+      var coordinationLimitLeft = mapCoords.left;
+      var coordinationLimitRight = 1100;
 
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
 
-      if (newCoordY < MAIN_PIN_HEIGHT) {
-        newCoordY = MAIN_PIN_HEIGHT;
-      } else if (newCoordY > MAX_PIN_DRAG_TOP) {
-        newCoordY = MAX_PIN_DRAG_TOP;
+      if (newCoordY < coordinationLimitTop) {
+        newCoordY = coordinationLimitTop;
+      } else if (newCoordY > coordinationLimitBottom) {
+        newCoordY = coordinationLimitBottom;
       }
 
-      if (newCoordX < mapOverlay.offsetLeft) {
-        newCoordX = mapOverlay.offsetLeft;
-      } else if (newCoordX > newCoordXLimit) {
-        newCoordX = newCoordXLimit;
+      if (newCoordX < coordinationLimitLeft) {
+        newCoordX = coordinationLimitLeft;
+      } else if (newCoordX > coordinationLimitRight) {
+        newCoordX = coordinationLimitRight;
       }
-      mapMainPin.style.top = (newCoordY) + 'px';
-      mapMainPin.style.left = (newCoordX) + 'px';
+
+      mapMainPin.style.top = newCoordY + 'px';
+      mapMainPin.style.left = newCoordX + 'px';
       setAddress(newCoordX, newCoordY);
     };
 
@@ -402,6 +417,5 @@ function activateMap() {
   });
 }
 
-changeFormCondition(true);
-activateMap();
+initializeMap();
 
