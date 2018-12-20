@@ -2,6 +2,7 @@
 var MAIN_PIN_HEIGHT = 84;
 var MAIN_PIN_WIDTH = 62;
 var ESC_KEYCODE = 27;
+var startMainPinCoords = getStartMainPinCoords();
 var MAIN_PIN_X = 570;
 var MAIN_PIN_Y = 357;
 var ROOMS_MIN = 1;
@@ -12,8 +13,10 @@ var PRICE_MIN = 1000;
 var PRICE_MAX = 1000000;
 var ADDRESS_X_INT_MIN = 100;
 var ADDRESS_X_INT_MAX = 500;
-var ADDRESS_Y_INT_MIN = 131;
+var ADDRESS_Y_INT_MIN = 130;
 var ADDRESS_Y_INT_MAX = 630;
+var coordinationLimitTop = ADDRESS_Y_INT_MIN - MAIN_PIN_HEIGHT;
+var coordinationLimitBottom = ADDRESS_Y_INT_MAX - MAIN_PIN_HEIGHT;
 var NUMBER_OF_PROPERTY_CARDS = 8;
 var PHOTOS_NUMBER = 3;
 var PHOTOS = getPhotoUrls();
@@ -257,10 +260,25 @@ function createCardsList(properties) {
   similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
 }
 
+function hidePins() {
+  var map = document.querySelector('.map');
+  var mapPins = map.querySelector('.map__pins');
+  var buttons = mapPins.querySelectorAll('button');
+  for (var i = 1; i < buttons.length; i++) {
+    buttons[i].classList.add('hidden');
+  }
+}
+
 var onResetClick = function (evt) {
   evt.preventDefault();
-  var selectType = document.querySelector('#type');
-  selectType.reset();
+  var map = document.querySelector('.map');
+  var mainPin = map.querySelector('.map__pin--main');
+  hidePins();
+  changeFormCondition(true);
+  setAddress(startMainPinCoords.x, startMainPinCoords.y);
+  mainPin.style.left = MAIN_PIN_X + 'px';
+  mainPin.style.top = MAIN_PIN_Y + 'px';
+  map.classList.add('map--faded');
 };
 
 function changeFormCondition(isHidden) {
@@ -269,15 +287,34 @@ function changeFormCondition(isHidden) {
   var adForm = document.querySelector('.notice').querySelector('form');
   adForm.classList.toggle('ad-form--disabled', isHidden);
   var resetForm = adForm.querySelector('.ad-form__reset');
-  resetForm.addEventListener('click', onResetClick);
+  if (isHidden) {
+    resetForm.removeEventListener('click', onResetClick);
+  } else {
+    resetForm.addEventListener('click', onResetClick);
+  }
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].disabled = isHidden;
   }
 }
 
+function getStartMainPinCoords() {
+  var map = document.querySelector('.map');
+  var mapCoords = map.getBoundingClientRect();
+  var mainPin = document.querySelector('.map__pin--main');
+  var ellipse = mainPin.querySelector('ellipse');
+  var ellipseCoords = ellipse.getBoundingClientRect();
+  var mainPinCoords = {
+    x: Math.round(ellipseCoords.x - mapCoords.x),
+    y: Math.round(ellipseCoords.y)
+  };
+  return mainPinCoords;
+}
+
 function setAddress(x, y) {
   var address = document.querySelector('#address');
-  address.value = x + ', ' + y;
+  var correctX = x + MAIN_PIN_WIDTH / 2;
+  var correctY = y + MAIN_PIN_HEIGHT;
+  address.value = correctX + ', ' + correctY;
 }
 
 function createPropertyMap() {
@@ -348,19 +385,13 @@ function activatePage() {
   removerMapFading();
 }
 
-function isMapActivated() {
-  if (document.querySelector('.map--faded')) {
-    activatePage();
-  }
-}
-
 function initializeMap() {
   var mapMainPin = document.querySelector('.map__pin--main');
   var mapPn = document.querySelector('.map');
   var mapCoord = mapPn.getBoundingClientRect();
   var mapWidthLim = mapCoord.width - MAIN_PIN_WIDTH;
 
-  setAddress(MAIN_PIN_X, MAIN_PIN_Y);
+  setAddress(startMainPinCoords.x, startMainPinCoords.y);
 
   mapMainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -372,7 +403,6 @@ function initializeMap() {
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-
       var shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
@@ -380,11 +410,6 @@ function initializeMap() {
 
       var newCoordY = mapMainPin.offsetTop - shift.y;
       var newCoordX = mapMainPin.offsetLeft - shift.x;
-      var coordinationLimitTop = ADDRESS_Y_INT_MIN - MAIN_PIN_HEIGHT;
-      var coordinationLimitBottom = ADDRESS_Y_INT_MAX - MAIN_PIN_HEIGHT;
-
-      var correctX = newCoordX + MAIN_PIN_WIDTH;
-      var correctY = newCoordY + MAIN_PIN_HEIGHT;
 
       startCoords = {
         x: moveEvt.clientX,
@@ -405,20 +430,28 @@ function initializeMap() {
 
       mapMainPin.style.top = newCoordY + 'px';
       mapMainPin.style.left = newCoordX + 'px';
-      setAddress(correctX, correctY);
+
+      changeFormCondition(false);
+      setAddress(newCoordX, newCoordY);
     };
 
-    var onMouseUp = function (upEvt) {
+    var onMouseUp = function (upEvt, moveEvt) {
+      var isMapActivated = document.querySelector('.map--faded');
       upEvt.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      isMapActivated();
+      if (moveEvt === 0) {
+        setAddress(startCoords.x, startCoords.y);
+      }
+      if (isMapActivated) {
+        activatePage();
+      }
     };
-
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
 }
 
+changeFormCondition(true);
 initializeMap();
 
