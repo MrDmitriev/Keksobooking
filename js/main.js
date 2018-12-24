@@ -4,7 +4,7 @@ var MAIN_PIN_HEIGHT = 84;
 var MAIN_PIN_SIDE = 62;
 var ESC_KEYCODE = 27;
 var MAIN_PIN_X = 570;
-var MAIN_PIN_Y = 357;
+var MAIN_PIN_Y = 375;
 var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 1;
@@ -260,6 +260,14 @@ function createCardsList(properties) {
   similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
 }
 
+function createPropertyMap() {
+  var properties = getRandomPropertyConfigs();
+  for (var i = 0; i < NUMBER_OF_PROPERTY_CARDS; i++) {
+    createPinsList(properties[i]);
+  }
+  createCardsList(properties[1]);
+}
+
 function removePins() {
   var mapPins = document.querySelector('.map__pins');
   var buttons = mapPins.querySelectorAll('button');
@@ -267,19 +275,6 @@ function removePins() {
     mapPins.removeChild(buttons[i]);
   }
 }
-
-var onResetClick = function (evt) {
-  evt.preventDefault();
-  var map = document.querySelector('.map');
-  var mainPin = document.querySelector('.map__pin--main');
-  removePins();
-  changeFormCondition(true);
-  mainPin.style.left = MAIN_PIN_X + 'px';
-  mainPin.style.top = MAIN_PIN_Y + 'px';
-  map.classList.add('map--faded');
-  var startMainPinCoords = getStartMainPinCoords();
-  setAddress(startMainPinCoords.x, startMainPinCoords.y);
-};
 
 function changeFormCondition(isHidden) {
   var adFormDiv = document.querySelector('.ad-form');
@@ -296,6 +291,19 @@ function changeFormCondition(isHidden) {
     fieldsets[i].disabled = isHidden;
   }
 }
+
+var onResetClick = function (evt) {
+  evt.preventDefault();
+  var map = document.querySelector('.map');
+  var mainPin = document.querySelector('.map__pin--main');
+  removePins();
+  changeFormCondition(true);
+  mainPin.style.left = MAIN_PIN_X + 'px';
+  mainPin.style.top = MAIN_PIN_Y + 'px';
+  map.classList.add('map--faded');
+  var startMainPinCoords = getStartMainPinCoords();
+  setAddress(startMainPinCoords.x, startMainPinCoords.y);
+};
 
 function getStartMainPinCoords() {
   var map = document.querySelector('.map');
@@ -324,14 +332,6 @@ function getMainPinCoords() {
 function setAddress(x, y) {
   var address = document.querySelector('#address');
   address.value = x + ', ' + y;
-}
-
-function createPropertyMap() {
-  var properties = getRandomPropertyConfigs();
-  for (var i = 0; i < NUMBER_OF_PROPERTY_CARDS; i++) {
-    createPinsList(properties[i]);
-  }
-  createCardsList(properties[1]);
 }
 
 function setElementsValidation() {
