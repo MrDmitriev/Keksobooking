@@ -1,17 +1,5 @@
 'use strict';
 (function () {
-  window.map = {
-    ADDRESS_Y_INT_MIN: 130,
-    ADDRESS_Y_INT_MAX: 630,
-    createPropertyMap: function () {
-      var properties = window.data.getRandomPropertyConfigs();
-      for (var i = 0; i < window.data.NUMBER_OF_PROPERTY_CARDS; i++) {
-        createPinsList(properties[i]);
-      }
-      createCardsList(properties[1]);
-    }
-  };
-
   function hideUnusedFeatures(property, template) {
     for (var i = 0; i < window.data.FEATURES.length; i++) {
       var array = property.offer.features;
@@ -122,5 +110,17 @@
     var parentArticle = document.querySelector('.map');
     parentArticle.replaceChild(newArticle, oldArticle);
   }
+
+  window.map = {
+    ADDRESS_Y_INT_MIN: 130,
+    ADDRESS_Y_INT_MAX: 630,
+    createPropertyMap: function () {
+      var properties = window.data.getRandomPropertyConfigs();
+      for (var i = 0; i < window.data.NUMBER_OF_PROPERTY_CARDS; i++) {
+        createPinsList(properties[i]);
+      }
+      createCardsList(properties[1]);
+    }
+  };
 })();
 

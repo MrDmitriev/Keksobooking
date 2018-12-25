@@ -1,43 +1,7 @@
 'use strict';
 (function () {
-  window.data = {
-    PHOTOS_NUMBER: 3,
-    FEATURES: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-    NUMBER_OF_PROPERTY_CARDS: 8,
-    getRandomPropertyConfigs: function () {
-      var randomAvatars = getRandomElementOrder(AVATARS);
-      var randomTitles = getRandomElementOrder(PROPERTY_TITLES);
-      var randomPhoto = getRandomElementOrder(PHOTOS);
-      var randomPropertyMassive = [];
-
-      for (var i = 0; i < window.data.NUMBER_OF_PROPERTY_CARDS; i++) {
-        randomPropertyMassive.push({
-          'author': {
-            'avatar': randomAvatars[i],
-          },
-          'offer': {
-            'title': randomTitles[i],
-            'address': (getRandomInt(ADDRESS_X_INT_MIN, ADDRESS_X_INT_MAX) + ', ' + getRandomInt(window.map.ADDRESS_Y_INT_MIN, window.map.ADDRESS_Y_INT_MAX)),
-            'price': getRandomInt(PRICE_MIN, PRICE_MAX),
-            'type': PROPERTY_TYPES[getRandomItem(PROPERTY_TYPES)],
-            'rooms': getRandomInt(ROOMS_MIN, ROOMS_MAX),
-            'guests': getRandomInt(GUESTS_MIN, GUESTS_MAX),
-            'checkin': CHECK_IN_OUT_OPTIONS[getRandomItem(CHECK_IN_OUT_OPTIONS)],
-            'checkout': CHECK_IN_OUT_OPTIONS[getRandomItem(CHECK_IN_OUT_OPTIONS)],
-            'features': getRandomLengthMassive(window.data.FEATURES),
-            'description': ' ',
-            'photos': randomPhoto
-          },
-          'location': {
-            'x': getRandomInt(ADDRESS_X_INT_MIN, ADDRESS_X_INT_MAX),
-            'y': getRandomInt(window.map.ADDRESS_Y_INT_MIN, window.map.ADDRESS_Y_INT_MAX)
-          }
-        });
-      }
-      return randomPropertyMassive;
-    }
-  };
-
+  var NUMBER_OF_PROPERTY_CARDS = 8;
+  var PHOTOS_NUMBER = 3;
   var ROOMS_MIN = 1;
   var ROOMS_MAX = 5;
   var GUESTS_MIN = 1;
@@ -78,7 +42,7 @@
 
   function getPhotoUrls() {
     var orderedMass = [];
-    for (var i = 1; i <= window.data.PHOTOS_NUMBER; i++) {
+    for (var i = 1; i <= PHOTOS_NUMBER; i++) {
       orderedMass.push('http://o0.github.io/assets/images/tokyo/hotel' + i + '.jpg');
     }
     return orderedMass;
@@ -86,7 +50,7 @@
 
   function getAvatarUrls() {
     var orderedMassive = [];
-    for (var i = 1; i <= window.data.NUMBER_OF_PROPERTY_CARDS; i++) {
+    for (var i = 1; i <= NUMBER_OF_PROPERTY_CARDS; i++) {
       orderedMassive.push('img/avatars/user0' + i + '.png');
     }
     return orderedMassive;
@@ -104,4 +68,42 @@
     }
     return randomLengthMassive;
   }
+
+  window.data = {
+    PHOTOS_NUMBER: PHOTOS_NUMBER,
+    FEATURES: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
+    NUMBER_OF_PROPERTY_CARDS: NUMBER_OF_PROPERTY_CARDS,
+    getRandomPropertyConfigs: function () {
+      var randomAvatars = getRandomElementOrder(AVATARS);
+      var randomTitles = getRandomElementOrder(PROPERTY_TITLES);
+      var randomPhoto = getRandomElementOrder(PHOTOS);
+      var randomPropertyMassive = [];
+
+      for (var i = 0; i < NUMBER_OF_PROPERTY_CARDS; i++) {
+        randomPropertyMassive.push({
+          'author': {
+            'avatar': randomAvatars[i],
+          },
+          'offer': {
+            'title': randomTitles[i],
+            'address': (getRandomInt(ADDRESS_X_INT_MIN, ADDRESS_X_INT_MAX) + ', ' + getRandomInt(window.map.ADDRESS_Y_INT_MIN, window.map.ADDRESS_Y_INT_MAX)),
+            'price': getRandomInt(PRICE_MIN, PRICE_MAX),
+            'type': PROPERTY_TYPES[getRandomItem(PROPERTY_TYPES)],
+            'rooms': getRandomInt(ROOMS_MIN, ROOMS_MAX),
+            'guests': getRandomInt(GUESTS_MIN, GUESTS_MAX),
+            'checkin': CHECK_IN_OUT_OPTIONS[getRandomItem(CHECK_IN_OUT_OPTIONS)],
+            'checkout': CHECK_IN_OUT_OPTIONS[getRandomItem(CHECK_IN_OUT_OPTIONS)],
+            'features': getRandomLengthMassive(window.data.FEATURES),
+            'description': ' ',
+            'photos': randomPhoto
+          },
+          'location': {
+            'x': getRandomInt(ADDRESS_X_INT_MIN, ADDRESS_X_INT_MAX),
+            'y': getRandomInt(window.map.ADDRESS_Y_INT_MIN, window.map.ADDRESS_Y_INT_MAX)
+          }
+        });
+      }
+      return randomPropertyMassive;
+    }
+  };
 })();
