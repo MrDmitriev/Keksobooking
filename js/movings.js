@@ -1,11 +1,12 @@
 'use strict';
-
 (function () {
-  var MAIN_PIN_SIDE = 62;
-  var MAIN_PIN_ARROW_HEIGHT = 22;
-  var MAIN_PIN_HEIGHT = 84;
-  var COORDINATION_LIMIT_TOP = window.map.ADDRESS_Y_INT_MIN - MAIN_PIN_HEIGHT;
-  var COORDINATION_LIMIT_BOTTOM = window.map.ADDRESS_Y_INT_MAX - MAIN_PIN_HEIGHT;
+  var MAIN_PIN = {
+    SIDE: 62,
+    HEIGHT: 84,
+    ARROW_HEIGHT: 22,
+  };
+  var COORDINATION_LIMIT_TOP = window.data.ADDRESS_Y_INT_MIN - MAIN_PIN.HEIGHT;
+  var COORDINATION_LIMIT_BOTTOM = window.data.ADDRESS_Y_INT_MAX - MAIN_PIN.HEIGHT;
 
   function getMainPinCoords() {
     var map = document.querySelector('.map');
@@ -13,8 +14,8 @@
     var mainPin = document.querySelector('.map__pin--main');
     var mainPinRect = mainPin.getBoundingClientRect();
     var mainPinCoords = {
-      x: Math.round(mainPinRect.x - mapCoords.x + MAIN_PIN_SIDE / 2),
-      y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN_ARROW_HEIGHT + MAIN_PIN_SIDE)
+      x: Math.round(mainPinRect.x - mapCoords.x + MAIN_PIN.SIDE / 2),
+      y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN.ARROW_HEIGHT + MAIN_PIN.SIDE)
     };
     return mainPinCoords;
   }
@@ -30,8 +31,8 @@
     var mainPin = document.querySelector('.map__pin--main');
     var mainPinRect = mainPin.getBoundingClientRect();
     var mainPinCoords = {
-      x: Math.round(mainPinRect.x - mapCoords.x + MAIN_PIN_SIDE / 2),
-      y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN_SIDE / 2)
+      x: Math.round(mainPinRect.x - mapCoords.x + MAIN_PIN.SIDE / 2),
+      y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN.SIDE / 2)
     };
     return mainPinCoords;
   }
@@ -43,7 +44,7 @@
 
   function activatePage() {
     window.form.setElementsValidation();
-    window.map.createPropertyMap();
+    window.renderPopups.createPropertyMap();
     window.form.changeFormCondition(false);
     removeMapFading();
   }
@@ -51,9 +52,9 @@
   function initializeMap() {
     var startMainPinCoords = getStartMainPinCoords();
     var mapMainPin = document.querySelector('.map__pin--main');
-    var mapPn = document.querySelector('.map');
-    var mapCoord = mapPn.getBoundingClientRect();
-    var mapWidthLim = mapCoord.width - MAIN_PIN_SIDE;
+    var map = document.querySelector('.map');
+    var mapCoord = map.getBoundingClientRect();
+    var mapWidthLim = mapCoord.width - MAIN_PIN.SIDE;
 
     setAddress(startMainPinCoords.x, startMainPinCoords.y);
 
@@ -134,8 +135,8 @@
       var mainPin = document.querySelector('.map__pin--main');
       var mainPinRect = mainPin.getBoundingClientRect();
       var mainPinCoords = {
-        x: Math.round(mainPinRect.x - mapCoords.x + MAIN_PIN_SIDE / 2),
-        y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN_SIDE / 2)
+        x: Math.round(mainPinRect.x - mapCoords.x + MAIN_PIN.SIDE / 2),
+        y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN.SIDE / 2)
       };
       return mainPinCoords;
     }

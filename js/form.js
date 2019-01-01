@@ -64,6 +64,7 @@
     var map = document.querySelector('.map');
     var mainPin = document.querySelector('.map__pin--main');
     removePins();
+    window.renderPins.removeCard();
     changeFormCondition(true);
     mainPin.style.left = MAIN_PIN_X + 'px';
     mainPin.style.top = MAIN_PIN_Y + 'px';

@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+
   function hideUnusedFeatures(property, template) {
     for (var i = 0; i < window.data.FEATURES.length; i++) {
       var array = property.offer.features;
@@ -49,31 +50,6 @@
     template.appendChild(similarPhotoTemplate);
   }
 
-  function createPinElement(property) {
-    var similarPinTemplate = document.querySelector('#pin');
-    var pinElement = similarPinTemplate.cloneNode(true);
-    var similarPinTemplateButton = pinElement.content.querySelector('.map__pin');
-    var buttonAvatar = similarPinTemplateButton.querySelector('img');
-    similarPinTemplateButton.style.left = property.location.x - window.form.MAIN_PIN_SIDE / 2 + 'px';
-    similarPinTemplateButton.style.top = property.location.y - window.form.MAIN_PIN_HEIGHT + 'px';
-    buttonAvatar.src = property.author.avatar;
-    buttonAvatar.alt = property.offer.title;
-    similarPinTemplateButton.addEventListener('click', function () {
-      rewriteCardElement(property);
-      window.form.openPopup();
-    });
-
-    return similarPinTemplateButton;
-  }
-
-  function createPinsList(properties) {
-    var similarListElement = document.querySelector('.map__pins');
-    var fragment = document.createDocumentFragment();
-
-    fragment.appendChild(createPinElement(properties));
-    similarListElement.appendChild(fragment);
-  }
-
   function createCardElement(property) {
     var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var cardElement = similarCardTemplate.cloneNode(true);
@@ -96,30 +72,17 @@
     return cardElement;
   }
 
-  function createCardsList(properties) {
-    var similarCardsListElement = document.querySelector('.map');
-    var fragmentCards = document.createDocumentFragment();
-
-    fragmentCards.appendChild(createCardElement(properties));
-    similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
-  }
-
-  function rewriteCardElement(property) {
-    var oldArticle = document.querySelector('.map__card');
-    var newArticle = createCardElement(property);
-    var parentArticle = document.querySelector('.map');
-    parentArticle.replaceChild(newArticle, oldArticle);
-  }
-
-  window.map = {
-    ADDRESS_Y_INT_MIN: 130,
-    ADDRESS_Y_INT_MAX: 630,
+  window.renderPopups = {
+    createCardsList: function (properties) {
+      var similarCardsListElement = document.querySelector('.map');
+      var fragmentCards = document.createDocumentFragment();
+      fragmentCards.appendChild(createCardElement(properties));
+      similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
+    },
     createPropertyMap: function () {
       var properties = window.data.getRandomPropertyConfigs();
-      for (var i = 0; i < window.data.NUMBER_OF_PROPERTY_CARDS; i++) {
-        createPinsList(properties[i]);
-      }
-      createCardsList(properties[1]);
+      window.renderPins.renderPins(properties);
+      window.renderPopups.createCardsList(properties[1]);
     }
   };
 })();

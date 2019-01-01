@@ -25,7 +25,6 @@
     'Неуютное бунгало по колено в воде'
   ];
 
-
   function getRandomItem(items) {
     return (Math.floor(Math.random() * items.length));
   }
@@ -71,6 +70,8 @@
 
   window.data = {
     PHOTOS_NUMBER: PHOTOS_NUMBER,
+    ADDRESS_Y_INT_MIN: 130,
+    ADDRESS_Y_INT_MAX: 630,
     FEATURES: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
     NUMBER_OF_PROPERTY_CARDS: NUMBER_OF_PROPERTY_CARDS,
     getRandomPropertyConfigs: function () {
@@ -86,7 +87,7 @@
           },
           'offer': {
             'title': randomTitles[i],
-            'address': (getRandomInt(ADDRESS_X_INT_MIN, ADDRESS_X_INT_MAX) + ', ' + getRandomInt(window.map.ADDRESS_Y_INT_MIN, window.map.ADDRESS_Y_INT_MAX)),
+            'address': (getRandomInt(ADDRESS_X_INT_MIN, ADDRESS_X_INT_MAX) + ', ' + getRandomInt(window.data.ADDRESS_Y_INT_MIN, window.data.ADDRESS_Y_INT_MAX)),
             'price': getRandomInt(PRICE_MIN, PRICE_MAX),
             'type': PROPERTY_TYPES[getRandomItem(PROPERTY_TYPES)],
             'rooms': getRandomInt(ROOMS_MIN, ROOMS_MAX),
@@ -99,7 +100,7 @@
           },
           'location': {
             'x': getRandomInt(ADDRESS_X_INT_MIN, ADDRESS_X_INT_MAX),
-            'y': getRandomInt(window.map.ADDRESS_Y_INT_MIN, window.map.ADDRESS_Y_INT_MAX)
+            'y': getRandomInt(window.data.ADDRESS_Y_INT_MIN, window.data.ADDRESS_Y_INT_MAX)
           }
         });
       }
