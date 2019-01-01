@@ -26,8 +26,8 @@ window.pageMode = {
     var map = document.querySelector('.map');
     map.classList.remove('map--faded');
   },
-  pageMode: function (on) {
-    if (on) {
+  pageMode: function (active) {
+    if (active) {
       window.form.setElementsValidation();
       window.renderPopups.createPropertyMap();
       window.pageMode.changeFormCondition(false);
