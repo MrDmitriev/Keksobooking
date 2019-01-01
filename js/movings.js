@@ -8,31 +8,26 @@
   var COORDINATION_LIMIT_TOP = window.data.ADDRESS_Y_INT_MIN - MAIN_PIN.HEIGHT;
   var COORDINATION_LIMIT_BOTTOM = window.data.ADDRESS_Y_INT_MAX - MAIN_PIN.HEIGHT;
 
-  function getMainPinCoords() {
-    var map = document.querySelector('.map');
-    var mapCoords = map.getBoundingClientRect();
-    var mainPin = document.querySelector('.map__pin--main');
-    var mainPinRect = mainPin.getBoundingClientRect();
-    var mainPinCoords = {
-      x: Math.round(mainPinRect.x - mapCoords.x + MAIN_PIN.SIDE / 2),
-      y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN.ARROW_HEIGHT + MAIN_PIN.SIDE)
-    };
-    return mainPinCoords;
+  function chcekMapStatus() {
+    var mapFaded = document.querySelector('.map--faded');
+    var mainPinHwight = mapFaded ? 0 : MAIN_PIN.ARROW_HEIGHT + MAIN_PIN.SIDE / 2;
+    return mainPinHwight;
   }
 
-  function setAddress(x, y) {
+  function setAddress() {
+    var adrressCoords = getMainPinCoords(chcekMapStatus);
     var address = document.querySelector('#address');
-    address.value = x + ', ' + y;
+    address.value = adrressCoords.x + ', ' + adrressCoords.y;
   }
 
-  function getStartMainPinCoords() {
+  function getMainPinCoords(callback) {
     var map = document.querySelector('.map');
     var mapCoords = map.getBoundingClientRect();
     var mainPin = document.querySelector('.map__pin--main');
     var mainPinRect = mainPin.getBoundingClientRect();
     var mainPinCoords = {
       x: Math.round(mainPinRect.x - mapCoords.x + MAIN_PIN.SIDE / 2),
-      y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN.SIDE / 2)
+      y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN.SIDE / 2 + callback())
     };
     return mainPinCoords;
   }
@@ -50,18 +45,17 @@
   }
 
   function initializeMap() {
-    var startMainPinCoords = getStartMainPinCoords();
+    // var startMainPinCoords = getMainPinCoords(chcekMapStatus);
     var mapMainPin = document.querySelector('.map__pin--main');
     var map = document.querySelector('.map');
     var mapCoord = map.getBoundingClientRect();
     var mapWidthLim = mapCoord.width - MAIN_PIN.SIDE;
 
-    setAddress(startMainPinCoords.x, startMainPinCoords.y);
+    setAddress();
 
     mapMainPin.addEventListener('mousedown', function (evt) {
-
-      var activatedMainPinCoords = getMainPinCoords();
-      setAddress(activatedMainPinCoords.x, activatedMainPinCoords.y);
+      // var activatedMainPinCoords = getMainPinCoords(chcekMapStatus);
+      setAddress();
       evt.preventDefault();
 
       var startCoords = {
@@ -70,7 +64,7 @@
       };
 
       var onMouseMove = function (moveEvt) {
-        var mainPinCoords = getMainPinCoords();
+        // var mainPinCoords = getMainPinCoords(chcekMapStatus);
         moveEvt.preventDefault();
         var shift = {
           x: startCoords.x - moveEvt.clientX,
@@ -101,19 +95,21 @@
         mapMainPin.style.left = newCoordX + 'px';
 
         window.form.changeFormCondition(false);
-        setAddress(mainPinCoords.x, mainPinCoords.y);
+        setAddress();
       };
 
       var onMouseUp = function (upEvt, moveEvt) {
-        var isMapActivated = document.querySelector('.map--faded');
+        var isMapDeactivated = document.querySelector('.map--faded');
         upEvt.preventDefault();
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
         if (moveEvt === 0) {
-          setAddress(startCoords.x, startCoords.y);
+          setAddress();
         }
-        if (isMapActivated) {
+        if (isMapDeactivated) {
           activatePage();
+          // var mainPinCoords = getMainPinCoords(chcekMapStatus);
+          setAddress();
         }
       };
       document.addEventListener('mousemove', onMouseMove);
@@ -121,7 +117,6 @@
     });
   }
 
-  window.form.changeFormCondition(true);
   initializeMap();
 
   window.movings = {
@@ -129,16 +124,21 @@
       var address = document.querySelector('#address');
       address.value = x + ', ' + y;
     },
-    getStartMainPinCoords: function () {
+    getMainPinCoords: function (callback) {
       var map = document.querySelector('.map');
       var mapCoords = map.getBoundingClientRect();
       var mainPin = document.querySelector('.map__pin--main');
       var mainPinRect = mainPin.getBoundingClientRect();
       var mainPinCoords = {
         x: Math.round(mainPinRect.x - mapCoords.x + MAIN_PIN.SIDE / 2),
-        y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN.SIDE / 2)
+        y: Math.round(mainPinRect.y - mapCoords.y + MAIN_PIN.SIDE + callback())
       };
       return mainPinCoords;
+    },
+    chcekMapStatus: function () {
+      var mapFaded = document.querySelector('.map--faded');
+      var mainPinHwight = mapFaded ? 0 : MAIN_PIN.ARROW_HEIGHT + MAIN_PIN.SIDE / 2;
+      return mainPinHwight;
     }
   };
 })();

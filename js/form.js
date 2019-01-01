@@ -69,7 +69,7 @@
     mainPin.style.left = MAIN_PIN_X + 'px';
     mainPin.style.top = MAIN_PIN_Y + 'px';
     map.classList.add('map--faded');
-    var startMainPinCoords = window.movings.getStartMainPinCoords();
+    var startMainPinCoords = window.movings.getMainPinCoords(window.movings.chcekMapStatus);
     window.movings.setAddress(startMainPinCoords.x, startMainPinCoords.y);
   };
 
@@ -108,6 +108,8 @@
     var timeOutAvailable = TIME_IN_OUT[timeOut];
     timeinOptions[timeOutAvailable].selected = true;
   };
+
+  changeFormCondition(true);
 
   window.form = {
     MAIN_PIN_SIDE: 62,
