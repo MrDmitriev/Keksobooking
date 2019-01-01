@@ -45,7 +45,6 @@
   }
 
   function initializeMap() {
-    // var startMainPinCoords = getMainPinCoords(chcekMapStatus);
     var mapMainPin = document.querySelector('.map__pin--main');
     var map = document.querySelector('.map');
     var mapCoord = map.getBoundingClientRect();
@@ -54,7 +53,6 @@
     setAddress();
 
     mapMainPin.addEventListener('mousedown', function (evt) {
-      // var activatedMainPinCoords = getMainPinCoords(chcekMapStatus);
       setAddress();
       evt.preventDefault();
 
@@ -64,7 +62,6 @@
       };
 
       var onMouseMove = function (moveEvt) {
-        // var mainPinCoords = getMainPinCoords(chcekMapStatus);
         moveEvt.preventDefault();
         var shift = {
           x: startCoords.x - moveEvt.clientX,
@@ -108,7 +105,6 @@
         }
         if (isMapDeactivated) {
           activatePage();
-          // var mainPinCoords = getMainPinCoords(chcekMapStatus);
           setAddress();
         }
       };
