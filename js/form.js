@@ -1,8 +1,5 @@
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
-  var MAIN_PIN_X = 570;
-  var MAIN_PIN_Y = 375;
   var TYPE_TO_MIN_PRICE = {
     'bungalo': '0',
     'flat': '1000',
@@ -21,56 +18,6 @@
     '12:00': 0,
     '13:00': 1,
     '14:00': 2,
-  };
-
-  var closePopup = function () {
-    var mapCard = document.querySelector('.map__card');
-    mapCard.classList.add('hidden');
-    window.removeEventListener('keydown', onPopupEscPress);
-  };
-
-  var onPopupEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
-    }
-  };
-
-  function removePins() {
-    var mapPins = document.querySelector('.map__pins');
-    var buttons = mapPins.querySelectorAll('button');
-    for (var i = 1; i < buttons.length; i++) {
-      mapPins.removeChild(buttons[i]);
-    }
-  }
-
-  function changeFormCondition(isHidden) {
-    var adFormDiv = document.querySelector('.ad-form');
-    var fieldsets = adFormDiv.querySelectorAll('fieldset');
-    var adForm = document.querySelector('.notice').querySelector('form');
-    adForm.classList.toggle('ad-form--disabled', isHidden);
-    var resetForm = adForm.querySelector('.ad-form__reset');
-    if (isHidden) {
-      resetForm.removeEventListener('click', onResetClick);
-    } else {
-      resetForm.addEventListener('click', onResetClick);
-    }
-    for (var i = 0; i < fieldsets.length; i++) {
-      fieldsets[i].disabled = isHidden;
-    }
-  }
-
-  var onResetClick = function (evt) {
-    evt.preventDefault();
-    var map = document.querySelector('.map');
-    var mainPin = document.querySelector('.map__pin--main');
-    removePins();
-    window.renderPins.removeCard();
-    changeFormCondition(true);
-    mainPin.style.left = MAIN_PIN_X + 'px';
-    mainPin.style.top = MAIN_PIN_Y + 'px';
-    map.classList.add('map--faded');
-    var startMainPinCoords = window.movings.getMainPinCoords(window.movings.chcekMapStatus);
-    window.movings.setAddress(startMainPinCoords.x, startMainPinCoords.y);
   };
 
   var setMinPropertyPrice = function (event) {
@@ -109,41 +56,44 @@
     timeinOptions[timeOutAvailable].selected = true;
   };
 
-  changeFormCondition(true);
+  window.pageMode.changeFormCondition(true);
 
   window.form = {
-    MAIN_PIN_SIDE: 62,
-    MAIN_PIN_HEIGHT: 84,
-    openPopup: function () {
-      var mapCard = document.querySelector('.map__card');
-      mapCard.classList.remove('hidden');
-      window.addEventListener('keydown', onPopupEscPress);
+    MAIN_PIN: {
+      SIDE: 62,
+      HEIGHT: 84,
+      ARROW_HEIGHT: 22,
     },
     setElementsValidation: function () {
       var type = document.querySelector('#type');
       var roomsSelection = document.querySelector('#room_number');
       var timeIn = document.querySelector('#timein');
       var timeOut = document.querySelector('#timeout');
-
       type.addEventListener('change', setMinPropertyPrice);
       roomsSelection.addEventListener('change', setGuestsNumber);
       timeIn.addEventListener('change', setTimeOut);
       timeOut.addEventListener('change', setTimeIn);
     },
-    changeFormCondition: function (isHidden) {
-      var adFormDiv = document.querySelector('.ad-form');
-      var fieldsets = adFormDiv.querySelectorAll('fieldset');
-      var adForm = document.querySelector('.notice').querySelector('form');
-      adForm.classList.toggle('ad-form--disabled', isHidden);
-      var resetForm = adForm.querySelector('.ad-form__reset');
-      if (isHidden) {
-        resetForm.removeEventListener('click', onResetClick);
-      } else {
-        resetForm.addEventListener('click', onResetClick);
-      }
-      for (var i = 0; i < fieldsets.length; i++) {
-        fieldsets[i].disabled = isHidden;
-      }
+    setAddress: function () {
+      var adrressCoords = window.form.getMainPinCoords(window.form.chcekMapStatus);
+      var address = document.querySelector('#address');
+      address.value = adrressCoords.x + ', ' + adrressCoords.y;
+    },
+    getMainPinCoords: function (callback) {
+      var map = document.querySelector('.map');
+      var mapCoords = map.getBoundingClientRect();
+      var mainPin = document.querySelector('.map__pin--main');
+      var mainPinRect = mainPin.getBoundingClientRect();
+      var mainPinCoords = {
+        x: Math.round(mainPinRect.x - mapCoords.x + window.form.MAIN_PIN.SIDE / 2),
+        y: Math.round(mainPinRect.y - mapCoords.y + window.form.MAIN_PIN.SIDE / 2 + callback())
+      };
+      return mainPinCoords;
+    },
+    chcekMapStatus: function () {
+      var mapFaded = document.querySelector('.map--faded');
+      var mainPinHwight = mapFaded ? 0 : window.form.MAIN_PIN.ARROW_HEIGHT + window.form.MAIN_PIN.SIDE / 2;
+      return mainPinHwight;
     }
   };
 })();

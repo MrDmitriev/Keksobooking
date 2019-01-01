@@ -18,7 +18,7 @@
     similarPinTemplateButton.addEventListener('click', function () {
       window.renderPins.removeCard();
       window.renderPopups.createCardsList(property);
-      window.form.openPopup();
+      window.renderPopups.openPopup();
     });
 
     return similarPinTemplateButton;
@@ -31,6 +31,13 @@
         fragment.appendChild(createPinElement(properties[i]));
       }
       pinsWrapper.appendChild(fragment);
+    },
+    removePins: function () {
+      var mapPins = document.querySelector('.map__pins');
+      var buttons = mapPins.querySelectorAll('button');
+      for (var i = 1; i < buttons.length; i++) {
+        mapPins.removeChild(buttons[i]);
+      }
     },
     removeCard: function () {
       var map = document.querySelector('.map');

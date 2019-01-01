@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var ESC_KEYCODE = 27;
 
   function hideUnusedFeatures(property, template) {
     for (var i = 0; i < window.data.FEATURES.length; i++) {
@@ -72,7 +73,24 @@
     return cardElement;
   }
 
+  var onPopupEscPress = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closePopup();
+    }
+  };
+
+  var closePopup = function () {
+    var mapCard = document.querySelector('.map__card');
+    mapCard.classList.add('hidden');
+    window.removeEventListener('keydown', onPopupEscPress);
+  };
+
   window.renderPopups = {
+    openPopup: function () {
+      var mapCard = document.querySelector('.map__card');
+      mapCard.classList.remove('hidden');
+      window.addEventListener('keydown', window.pageMode.onPopupEscPress);
+    },
     createCardsList: function (properties) {
       var similarCardsListElement = document.querySelector('.map');
       var fragmentCards = document.createDocumentFragment();
