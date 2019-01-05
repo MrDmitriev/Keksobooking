@@ -17,26 +17,29 @@
 
   function getPropertyType(property) {
     var textContent = '';
-    if (property.offer.type === 'flat') {
-      textContent = 'Квартира';
-    } else if (property.offer.type === 'bungalo') {
-      textContent = 'Бунгало';
-    } else if (property.offer.type === 'house') {
-      textContent = 'Дом';
-    } else if (property.offer.type === 'palace') {
-      textContent = 'Дворец';
+    switch (property.offer.type) {
+      case 'flat':
+        textContent = 'Квартира';
+        break;
+      case 'bungalo':
+        textContent = 'Бунгало';
+        break;
+      case 'house':
+        textContent = 'Дом';
+        break;
+      case 'palace':
+        textContent = 'Дворец';
     }
 
     return textContent;
   }
 
-  function makePhotoImg(elem, property, i) {
+  function makePhotoImg(property, i) {
     var photoImg = document.createElement('img');
     photoImg.classList.add('popup__photo');
     photoImg.src = property.offer.photos[i];
     photoImg.width = '45';
     photoImg.height = '40';
-
     return photoImg;
   }
 
@@ -45,7 +48,7 @@
     var fragmentPhotos = document.createDocumentFragment();
     for (var j = 0; j < window.data.PHOTOS_NUMBER; j++) {
       similarPhotoTemplate.removeChild(similarPhotoTemplate.firstChild);
-      fragmentPhotos.appendChild(makePhotoImg(similarPhotoTemplate, property, j));
+      fragmentPhotos.appendChild(makePhotoImg(property, j));
     }
     similarPhotoTemplate.appendChild(fragmentPhotos);
     template.appendChild(similarPhotoTemplate);
@@ -65,7 +68,6 @@
     cardElement.querySelector('.popup__description').textContent = property.offer.description;
     createPhotosLibrary(property, cardElement);
     cardElement.querySelector('.popup__avatar').src = property.author.avatar;
-    cardElement.classList.add('hidden');
     mapClose.addEventListener('click', function () {
       cardElement.classList.add('hidden');
     });
@@ -75,33 +77,30 @@
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
+      removeCard();
     }
   };
 
-  var closePopup = function () {
-    var mapCard = document.querySelector('.map__card');
-    mapCard.classList.add('hidden');
-    window.removeEventListener('keydown', onPopupEscPress);
-  };
+  function removeCard() {
+    var map = document.querySelector('.map');
+    var card = map.querySelector('.map__card');
+    if (card) {
+      map.removeChild(card);
+      document.removeEventListener('keydown', onPopupEscPress);
+    }
+  }
+
+  function createCardsList(properties) {
+    var similarCardsListElement = document.querySelector('.map');
+    var fragmentCards = document.createDocumentFragment();
+    document.addEventListener('keydown', window.renderPopups.onPopupEscPress);
+    fragmentCards.appendChild(createCardElement(properties));
+    similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
+  }
 
   window.renderPopups = {
-    openPopup: function () {
-      var mapCard = document.querySelector('.map__card');
-      mapCard.classList.remove('hidden');
-      window.addEventListener('keydown', window.pageMode.onPopupEscPress);
-    },
-    createCardsList: function (properties) {
-      var similarCardsListElement = document.querySelector('.map');
-      var fragmentCards = document.createDocumentFragment();
-      fragmentCards.appendChild(createCardElement(properties));
-      similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
-    },
-    createPropertyMap: function () {
-      var properties = window.data.getRandomPropertyConfigs();
-      window.renderPins.renderPins(properties);
-      window.renderPopups.createCardsList(properties[1]);
-    }
+    removeCard: removeCard,
+    createCardsList: createCardsList
   };
 })();
 

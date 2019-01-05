@@ -27,16 +27,17 @@ window.pageMode = {
     map.classList.remove('map--faded');
   },
   pageMode: function (active) {
+    var properties = window.data.getRandomPropertyConfigs();
     if (active) {
       window.form.setElementsValidation();
-      window.renderPopups.createPropertyMap();
+      window.renderPins.renderPins(properties);
       window.pageMode.changeFormCondition(false);
       window.pageMode.removeMapFading();
     } else {
       var map = document.querySelector('.map');
       var mainPin = document.querySelector('.map__pin--main');
       window.renderPins.removePins();
-      window.renderPins.removeCard();
+      window.renderPopups.removeCard();
       window.pageMode.changeFormCondition(true);
       mainPin.style.left = MAIN_PIN_X + 'px';
       mainPin.style.top = MAIN_PIN_Y + 'px';
