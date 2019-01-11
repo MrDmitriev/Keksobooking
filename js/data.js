@@ -1,5 +1,4 @@
 'use strict';
-'use strict';
 (function () {
   var NUMBER_OF_PROPERTY_CARDS = 8;
   var PHOTOS_NUMBER = 3;
