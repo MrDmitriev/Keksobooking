@@ -27,7 +27,6 @@ window.pageMode = {
     map.classList.remove('map--faded');
   },
   pageMode: function (active) {
-    var properties = window.data.getRandomPropertyConfigs();
     if (active) {
       window.form.setElementsValidation();
       window.load(function (properties) {
