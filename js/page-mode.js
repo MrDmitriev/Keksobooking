@@ -30,7 +30,9 @@ window.pageMode = {
     var properties = window.data.getRandomPropertyConfigs();
     if (active) {
       window.form.setElementsValidation();
-      window.renderPins.renderPins(properties);
+      window.load(function (properties) {
+        window.renderPins.renderPins(properties);
+      });
       window.pageMode.changeFormCondition(false);
       window.pageMode.removeMapFading();
     } else {
