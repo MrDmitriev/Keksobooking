@@ -93,7 +93,7 @@
   function createCardsList(properties) {
     var similarCardsListElement = document.querySelector('.map');
     var fragmentCards = document.createDocumentFragment();
-    document.addEventListener('keydown', window.renderPopups.onPopupEscPress);
+    document.addEventListener('keydown', onPopupEscPress);
     fragmentCards.appendChild(createCardElement(properties));
     similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
   }
