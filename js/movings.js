@@ -1,12 +1,14 @@
 'use strict';
 (function () {
+  var ADDRESS_Y_INT_MIN = 130;
+  var ADDRESS_Y_INT_MAX = 630;
   var MAIN_PIN = {
     SIDE: 62,
     HEIGHT: 84,
     ARROW_HEIGHT: 22,
   };
-  var COORDINATION_LIMIT_TOP = window.data.ADDRESS_Y_INT_MIN - MAIN_PIN.HEIGHT;
-  var COORDINATION_LIMIT_BOTTOM = window.data.ADDRESS_Y_INT_MAX - MAIN_PIN.HEIGHT;
+  var COORDINATION_LIMIT_TOP = ADDRESS_Y_INT_MIN - MAIN_PIN.HEIGHT;
+  var COORDINATION_LIMIT_BOTTOM = ADDRESS_Y_INT_MAX - MAIN_PIN.HEIGHT;
 
   function moveMainPin() {
     var mapMainPin = document.querySelector('.map__pin--main');

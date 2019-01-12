@@ -29,9 +29,7 @@ window.pageMode = {
   pageMode: function (active) {
     if (active) {
       window.form.setElementsValidation();
-      window.load(function (properties) {
-        window.renderPins.renderPins(properties);
-      });
+      window.load(window.data.successHandler, window.data.errorHandler);
       window.pageMode.changeFormCondition(false);
       window.pageMode.removeMapFading();
     } else {
