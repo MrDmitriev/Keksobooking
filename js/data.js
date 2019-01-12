@@ -3,8 +3,7 @@
   var NUMBER_OF_PROPERTY_CARDS = 8;
   var PHOTOS_NUMBER = 3;
   var ROOMS_MIN = 1;
-   var ROOMS_MAX = 5;
-
+  var ROOMS_MAX = 5;
   var GUESTS_MIN = 1;
   var GUESTS_MAX = 3;
   var PRICE_MIN = 1000;
