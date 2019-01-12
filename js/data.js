@@ -19,7 +19,7 @@
   };
 
   window.data = {
-     PHOTOS_NUMBER: PHOTOS_NUMBER,
+    PHOTOS_NUMBER: PHOTOS_NUMBER,
     ADDRESS_Y_INT_MIN: 130,
     ADDRESS_Y_INT_MAX: 630,
     FEATURES: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
