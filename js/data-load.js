@@ -16,7 +16,7 @@
     main.appendChild(errorElement);
   };
 
-  window.load = function (onSuccess, onError) {
+  window.loadData = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('error', function () {

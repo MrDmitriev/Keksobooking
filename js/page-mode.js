@@ -1,6 +1,4 @@
 'use strict';
-var MAIN_PIN_X = 570;
-var MAIN_PIN_Y = 375;
 
 window.pageMode = {
   onResetClick: function (evt) {
@@ -29,17 +27,14 @@ window.pageMode = {
   pageMode: function (active) {
     if (active) {
       window.form.setElementsValidation();
-      window.load(window.data.successHandler, window.data.errorHandler);
+      window.loadData(window.data.successHandler, window.data.errorHandler);
       window.pageMode.changeFormCondition(false);
       window.pageMode.removeMapFading();
     } else {
       var map = document.querySelector('.map');
-      var mainPin = document.querySelector('.map__pin--main');
       window.renderPins.removePins();
       window.renderPopups.removeCard();
       window.pageMode.changeFormCondition(true);
-      mainPin.style.left = MAIN_PIN_X + 'px';
-      mainPin.style.top = MAIN_PIN_Y + 'px';
       map.classList.add('map--faded');
       window.form.setAddress();
     }

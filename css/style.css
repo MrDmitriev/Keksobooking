@@ -227,6 +227,7 @@ fieldset {
   width: 65px;
   height: 65px;
   left: 50%;
+  translate: -50%;
 
   cursor: move;
 }
