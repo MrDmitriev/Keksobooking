@@ -1,12 +1,15 @@
 'use strict';
 (function () {
+  var onSelectClick = function () {};
   var housingType = document.querySelector('#housing-type');
+
   housingType.addEventListener('select', function () {
     var propertyType = event.target.value;
-    filterData(data, propertyType);
+    var filteredData = window.filterData(newData, propertyType);
+    window.renderPins.renderPins(filteredData);
   });
 
-  var filterData = function (data, propertyType) {
+  window.filterData = function (data, propertyType) {
     var selectedPropertType = data.filter(function (property) {
       return property.offer.type === propertyType;
     });

@@ -23,8 +23,24 @@
 
     return similarPinTemplateButton;
   }
+  function updatePins(props) {
+    removePins();
+    var fragment = document.createDocumentFragment();
+    props.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(props[i]));
+    });
+    pinsWrapper.appendChild(fragment);
+  }
 
-  function renderPins(properties) {
+  function renderPins(data) {
+    var properties = data;
+    var housingType = document.querySelector('#housing-type');
+    housingType.addEventListener('change', function (event) {
+      var propertyType = event.target.value;
+      var filteredData = window.filterData(properties, propertyType);
+      updatePins(filteredData);
+    });
+    removePins();
     var fragment = document.createDocumentFragment();
     properties.forEach(function (value, i) {
       fragment.appendChild(createPinElement(properties[i]));
