@@ -81,12 +81,12 @@
     },
     getMainPinCoords: function (callback) {
       var map = document.querySelector('.map');
-      var mapCoords = map.getBoundingClientRect();
       var mainPin = document.querySelector('.map__pin--main');
-      var mainPinRect = mainPin.getBoundingClientRect();
+      var mapCoords = map.getBoundingClientRect();
+      var mainPinCoord = mainPin.getBoundingClientRect();
       var mainPinCoords = {
-        x: Math.round(mainPinRect.x - mapCoords.x + window.form.MAIN_PIN.SIDE / 2),
-        y: Math.round(mainPinRect.y - mapCoords.y + window.form.MAIN_PIN.SIDE / 2 + callback())
+        x: Math.round(mainPinCoord.x) - Math.round(mapCoords.x) + window.form.MAIN_PIN.SIDE / 2,
+        y: Math.round(mainPinCoord.y - mapCoords.y) + window.form.MAIN_PIN.SIDE / 2 + callback()
       };
       return mainPinCoords;
     },

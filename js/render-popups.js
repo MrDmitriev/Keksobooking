@@ -1,11 +1,13 @@
 'use strict';
 (function () {
+  var PHOTOS_NUMBER = 3;
+  var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var ESC_KEYCODE = 27;
 
   function hideUnusedFeatures(property, template) {
-    for (var i = 0; i < window.data.FEATURES.length; i++) {
+    for (var i = 0; i < FEATURES.length; i++) {
       var array = property.offer.features;
-      var element = window.data.FEATURES[i];
+      var element = FEATURES[i];
       var idx = array.indexOf(element);
       if (idx === -1) {
         var toRemove = 'popup__feature--' + element;
@@ -46,7 +48,7 @@
   function createPhotosLibrary(property, template) {
     var similarPhotoTemplate = template.querySelector('.popup__photos');
     var fragmentPhotos = document.createDocumentFragment();
-    for (var j = 0; j < window.data.PHOTOS_NUMBER; j++) {
+    for (var j = 0; j < PHOTOS_NUMBER; j++) {
       similarPhotoTemplate.removeChild(similarPhotoTemplate.firstChild);
       fragmentPhotos.appendChild(makePhotoImg(property, j));
     }
@@ -93,7 +95,7 @@
   function createCardsList(properties) {
     var similarCardsListElement = document.querySelector('.map');
     var fragmentCards = document.createDocumentFragment();
-    document.addEventListener('keydown', window.renderPopups.onPopupEscPress);
+    document.addEventListener('keydown', onPopupEscPress);
     fragmentCards.appendChild(createCardElement(properties));
     similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
   }
