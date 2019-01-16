@@ -11,10 +11,9 @@
       });
     }
 
-    while (selectedPropertType.length > PROPERTIES_NUMBER_LIMIT) {
-      selectedPropertType.splice(PROPERTIES_NUMBER_LIMIT);
-      break;
-    }
+
+    selectedPropertType.splice(PROPERTIES_NUMBER_LIMIT);
+
     return selectedPropertType;
   };
 
