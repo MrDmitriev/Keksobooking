@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var PROPERTIES_LIMIT = 5;
+  var BASIC_FILTER = 'any';
   var PIN = {
     WIDTH: 62,
     HEIGHT: 84
@@ -33,7 +33,7 @@
   }
 
   function renderPins(data) {
-    var properties = data;
+    var properties = window.filterData(data, BASIC_FILTER);
     var housingType = document.querySelector('#housing-type');
     housingType.addEventListener('change', function (event) {
       var propertyType = event.target.value;
