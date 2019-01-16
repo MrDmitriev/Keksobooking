@@ -26,9 +26,9 @@
 
   function renderPins(properties) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < NUMBER_OF_PROPERTY_CARDS; i++) {
+    properties.forEach(function (value, i) {
       fragment.appendChild(createPinElement(properties[i]));
-    }
+    });
     pinsWrapper.appendChild(fragment);
   }
 
@@ -42,7 +42,7 @@
 
   window.renderPins = {
     renderPins: renderPins,
-    removePins: removePins,
+    removePins: removePins
   };
 })();
 

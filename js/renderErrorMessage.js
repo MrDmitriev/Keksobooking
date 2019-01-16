@@ -8,7 +8,7 @@
     var errorMessage = errorElement.querySelector('.error__message');
     var errorButton = errorElement.querySelector('.error__button');
     errorButton.addEventListener('click', function () {
-      window.pageMode.pageMode();
+      window.dataLoad(window.renderPins.renderPins, window.renderErrorMessage);
       errorElement.classList.add('hidden');
     });
     errorMessage.textContent = errMessage;
