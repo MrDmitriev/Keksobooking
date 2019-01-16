@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var NUMBER_OF_PROPERTY_CARDS = 8;
+  var PROPERTIES_LIMIT = 5;
   var PIN = {
     WIDTH: 62,
     HEIGHT: 84
@@ -45,6 +45,7 @@
     properties.forEach(function (value, i) {
       fragment.appendChild(createPinElement(properties[i]));
     });
+
     pinsWrapper.appendChild(fragment);
   }
 
