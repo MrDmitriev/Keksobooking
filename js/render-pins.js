@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var NUMBER_OF_PROPERTY_CARDS = 8;
+  var BASIC_FILTER = 'any';
   var PIN = {
     WIDTH: 62,
     HEIGHT: 84
@@ -23,12 +23,31 @@
 
     return similarPinTemplateButton;
   }
-
-  function renderPins(properties) {
+  function updatePins(props) {
+    removePins();
     var fragment = document.createDocumentFragment();
-    properties.forEach(function (value, i) {
-      fragment.appendChild(createPinElement(properties[i]));
+    props.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(props[i]));
     });
+    pinsWrapper.appendChild(fragment);
+  }
+
+  function renderPins(data) {
+    var properties = data;
+    var filteredProps = window.basicFilter(properties);
+    var housingType = document.querySelector('#housing-type');
+    housingType.addEventListener('change', function (event) {
+      var propertyType = event.target.value;
+      var filteredData = window.filterData(properties, propertyType);
+      window.renderPopups.removeCard();
+      updatePins(filteredData);
+    });
+    removePins();
+    var fragment = document.createDocumentFragment();
+    filteredProps.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(filteredProps[i]));
+    });
+
     pinsWrapper.appendChild(fragment);
   }
 

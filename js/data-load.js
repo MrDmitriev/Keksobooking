@@ -13,8 +13,6 @@
     });
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
-        // var newData = xhr.response;
-        // var filteredData = window.dataSort.filterData(newData);
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -24,6 +22,11 @@
     xhr.timeout = 10000; // 10s
     xhr.open('GET', URL);
     xhr.send();
+  };
+
+  window.saveData = function (data) {
+    var newData = data;
+    return newData;
   };
 })();
 
