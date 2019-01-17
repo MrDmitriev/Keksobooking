@@ -33,17 +33,19 @@
   }
 
   function renderPins(data) {
-    var properties = window.filterData(data, BASIC_FILTER);
+    var properties = data;
+    var filteredProps = window.basicFilter(properties);
     var housingType = document.querySelector('#housing-type');
     housingType.addEventListener('change', function (event) {
       var propertyType = event.target.value;
       var filteredData = window.filterData(properties, propertyType);
+      window.renderPopups.removeCard();
       updatePins(filteredData);
     });
     removePins();
     var fragment = document.createDocumentFragment();
-    properties.forEach(function (value, i) {
-      fragment.appendChild(createPinElement(properties[i]));
+    filteredProps.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(filteredProps[i]));
     });
 
     pinsWrapper.appendChild(fragment);

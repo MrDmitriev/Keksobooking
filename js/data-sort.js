@@ -10,12 +10,20 @@
         return property.offer.type === propertyType;
       });
     }
-
-
-    selectedPropertType.splice(PROPERTIES_NUMBER_LIMIT);
-
-    return selectedPropertType;
+    var filteredData = window.basicFilter(selectedPropertType);
+    return filteredData;
   };
 
+  window.basicFilter = function (data) {
+    var filteredData = [];
+    if (data.length > PROPERTIES_NUMBER_LIMIT) {
+      for (var i = 0; i < PROPERTIES_NUMBER_LIMIT; i++) {
+        filteredData[i] = data[i];
+      }
+    } else {
+      filteredData = data;
+    }
+    return filteredData;
+  };
 })();
 
