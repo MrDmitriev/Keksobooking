@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var BASIC_FILTER = 'any';
   var PIN = {
     WIDTH: 62,
     HEIGHT: 84
