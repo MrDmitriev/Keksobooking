@@ -1,6 +1,8 @@
 'use strict';
 (function () {
   var PROPERTIES_NUMBER_LIMIT = 5;
+  var housingPrice = document.querySelector('#housing-price');
+  var housingGuests = document.querySelector('#housing-guests');
 
   var basicFilter = function (data) {
     var filteredData = [];
@@ -14,33 +16,24 @@
     return filteredData;
   };
 
-  var housingPrice = document.querySelector('#housing-price');
-  var housingGuests = document.querySelector('#housing-guests');
-
-  var filterPrice = function (item) {
-    if (housingPrice.value === 'low') {
-      return item.offer.price <= 10000;
-    } else if (housingPrice.value === 'middle') {
-      return item.offer.price > 10000 && item.offer.price <= 50000;
-    } else {
-      return item.offer.price > 50000;
+  function filterPrice(item) {
+    switch (housingPrice.value) {
+      case 'low':
+        return item.offer.price < 10000;
+      case 'middle':
+        return item.offer.price >= 10000 && item.offer.price <= 50000;
+      default:
+        return item.offer.price > 50000;
     }
-  };
+  }
 
   function filterGuests(item, filterValues) {
-    if (housingGuests.value === '0') {
-      return item.offer.guests <= parseInt(filterValues[2], 10);
-    } else {
-      return item.offer.guests >= parseInt(filterValues[2], 10);
-    }
+    return housingGuests.value === '0' ? item.offer.guests <= parseInt(filterValues[2], 10) : item.offer.guests >= parseInt(filterValues[2], 10);
   }
 
   function getChoosedValues() {
     var housingType = document.querySelector('#housing-type');
-    // var housingPrice = document.querySelector('#housing-price');
     var housingRooms = document.querySelector('#housing-rooms');
-    // var housingGuests = document.querySelector('#housing-guests');
-
     var filters = [housingType, housingRooms, housingGuests, housingPrice];
     var filtersValue = [];
     filters.forEach(function (item) {
@@ -48,9 +41,6 @@
     });
     return filtersValue;
   }
-
-  // filterValues = ['house', '2', 'any']
-  /* property = [property.offer.type, property.offer.price, property.offer.rooms, property.offer.guests] */
 
   function mainFilter(properties) {
     var filterValues = getChoosedValues();
