@@ -33,11 +33,22 @@
 
   function renderPins(data) {
     var properties = data;
-    var filteredProps = window.basicFilter(properties);
+    var filteredProps = window.dataSort.basicFilter(properties);
     var housingType = document.querySelector('#housing-type');
-    housingType.addEventListener('change', function (event) {
-      var propertyType = event.target.value;
-      var filteredData = window.filterData(properties, propertyType);
+    var housingRooms = document.querySelector('#housing-rooms');
+    var housingGuests = document.querySelector('#housing-guests');
+    housingType.addEventListener('change', function () {
+      var filteredData = window.dataSort.mainFilter(properties);
+      window.renderPopups.removeCard();
+      updatePins(filteredData);
+    });
+    housingRooms.addEventListener('change', function () {
+      var filteredData = window.dataSort.mainFilter(properties);
+      window.renderPopups.removeCard();
+      updatePins(filteredData);
+    });
+    housingGuests.addEventListener('change', function () {
+      var filteredData = window.dataSort.mainFilter(properties);
       window.renderPopups.removeCard();
       updatePins(filteredData);
     });
