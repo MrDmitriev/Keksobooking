@@ -37,6 +37,7 @@
     var housingType = document.querySelector('#housing-type');
     var housingRooms = document.querySelector('#housing-rooms');
     var housingGuests = document.querySelector('#housing-guests');
+    var housingPrice = document.querySelector('#housing-price');
     housingType.addEventListener('change', function () {
       var filteredData = window.dataSort.mainFilter(properties);
       window.renderPopups.removeCard();
@@ -48,6 +49,11 @@
       updatePins(filteredData);
     });
     housingGuests.addEventListener('change', function () {
+      var filteredData = window.dataSort.mainFilter(properties);
+      window.renderPopups.removeCard();
+      updatePins(filteredData);
+    });
+    housingPrice.addEventListener('change', function () {
       var filteredData = window.dataSort.mainFilter(properties);
       window.renderPopups.removeCard();
       updatePins(filteredData);
