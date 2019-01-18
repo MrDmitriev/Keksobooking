@@ -24,9 +24,10 @@
   }
   function updatePins(props) {
     removePins();
+    var filteredProps = window.dataSort.basicFilter(props);
     var fragment = document.createDocumentFragment();
-    props.forEach(function (value, i) {
-      fragment.appendChild(createPinElement(props[i]));
+    filteredProps.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(filteredProps[i]));
     });
     pinsWrapper.appendChild(fragment);
   }

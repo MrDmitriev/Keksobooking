@@ -15,6 +15,7 @@
   };
 
   var housingPrice = document.querySelector('#housing-price');
+  var housingGuests = document.querySelector('#housing-guests');
 
   var filterPrice = function (item) {
     if (housingPrice.value === 'low') {
@@ -26,11 +27,19 @@
     }
   };
 
+  function filterGuests(item, filterValues) {
+    if (housingGuests.value === '0') {
+      return item.offer.guests <= parseInt(filterValues[2], 10);
+    } else {
+      return item.offer.guests >= parseInt(filterValues[2], 10);
+    }
+  }
+
   function getChoosedValues() {
     var housingType = document.querySelector('#housing-type');
     // var housingPrice = document.querySelector('#housing-price');
     var housingRooms = document.querySelector('#housing-rooms');
-    var housingGuests = document.querySelector('#housing-guests');
+    // var housingGuests = document.querySelector('#housing-guests');
 
     var filters = [housingType, housingRooms, housingGuests, housingPrice];
     var filtersValue = [];
@@ -50,29 +59,14 @@
     }).filter(function (item) {
       return filterValues[1] === 'any' ? true : item.offer.rooms === parseInt(filterValues[1], 10);
     }).filter(function (item) {
-      return filterValues[2] === 'any' ? true : item.offer.guests >= parseInt(filterValues[2], 10);
+      return filterValues[2] === 'any' ? true : filterGuests(item, filterValues);
     }).filter(function (item) {
       return filterValues[3] === 'any' ? true : filterPrice(item);
     });
-
     return filter1;
   }
 
-  var filterHousingType = function (data, housingType) {
-    var selectedHousingType = [];
-    if (housingType === 'any') {
-      selectedHousingType = data;
-    } else {
-      selectedHousingType = data.filter(function (property) {
-        return property.offer.type === housingType;
-      });
-    }
-    var filteredData = window.dataSort.basicFilter(selectedHousingType);
-    return filteredData;
-  };
-
   window.dataSort = {
-    filterHousingType: filterHousingType,
     basicFilter: basicFilter,
     mainFilter: mainFilter
   };
