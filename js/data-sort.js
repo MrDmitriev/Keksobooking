@@ -3,6 +3,30 @@
   var PROPERTIES_NUMBER_LIMIT = 5;
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
+  var housingFeatures = document.querySelector('#housing-features').querySelectorAll('.map__checkbox');
+  var checkedBoxes = [].filter.call(housingFeatures, function (el) {
+    return el.checked;
+  });
+
+  // var choosedCheckbxs = ['wifi', 'parking', 'washer'];
+  // var properties[1] = ["wifi","dishwasher", "parking", "washer", "elevator", "conditioner"];
+  /*
+    var filter2 = filter1.filter(function (item) {
+      return checkedBoxesValues.length === 0 ? true : controlFeatures(item, checkedBoxesValues);
+    });
+
+    */
+
+
+  function controlFeatures(item, massive) {
+    for (var i = 0; i < massive.length; i++) {
+      if (item.offer.features.includes(massive[i])) {
+        continue;
+      } else {
+        return false;
+      }
+    }
+  }
 
   var basicFilter = function (data) {
     var filteredData = [];
@@ -44,6 +68,9 @@
 
   function mainFilter(properties) {
     var filterValues = getChoosedValues();
+    var checkedBoxesValues = checkedBoxes.forEach(function (item) {
+      checkedBoxesValues.push(item.value);
+    });
     var filter1 = properties.filter(function (item) {
       return filterValues[0] === 'any' ? true : item.offer.type === filterValues[0];
     }).filter(function (item) {
@@ -53,6 +80,7 @@
     }).filter(function (item) {
       return filterValues[3] === 'any' ? true : filterPrice(item);
     });
+
     return filter1;
   }
 
