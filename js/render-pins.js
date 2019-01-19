@@ -39,6 +39,12 @@
     var housingRooms = document.querySelector('#housing-rooms');
     var housingGuests = document.querySelector('#housing-guests');
     var housingPrice = document.querySelector('#housing-price');
+    // var housingFeatures = document.querySelector('#housing-features');
+    /*housingFeatures.addEventListener('click', function () {
+      var filteredData = window.dataSort.mainFilter(properties);
+      window.renderPopups.removeCard();
+      updatePins(filteredData);
+    });*/
     housingType.addEventListener('change', function () {
       var filteredData = window.dataSort.mainFilter(properties);
       window.renderPopups.removeCard();

@@ -3,12 +3,7 @@
   var PROPERTIES_NUMBER_LIMIT = 5;
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
-  var map = document.querySelector('.map');
-  var housingFeatures = map.querySelector('#housing-features');
-  var checkBoxes = housingFeatures.querySelectorAll('.map__checkbox');
-  var checkedBoxes = [].filter.call(checkBoxes, function (el) {
-    return el.checked;
-  });
+
 
   // var choosedCheckbxs = ['wifi', 'parking', 'washer'];
   // var properties[1] = ["wifi","dishwasher", "parking", "washer", "elevator", "conditioner"];
@@ -18,7 +13,6 @@
     });
 
     */
-
 
   function controlFeatures(item, massive) {
     for (var i = 0; i < massive.length; i++) {
@@ -70,8 +64,14 @@
 
   function mainFilter(properties) {
     var filterValues = getChoosedValues();
-    var checkedBoxesValues = checkedBoxes.forEach(function (item) {
-      checkedBoxesValues.push(item.value);
+    var housingFeatures = document.querySelector('#housing-features');
+    var checkBoxes = housingFeatures.querySelectorAll('.map__checkbox');
+    var checkBoxesChecked = [].filter.call(checkBoxes, function (el) {
+      return el.checked;
+    });
+    var checkBoxesCheckedValues = [];
+    checkBoxesChecked.forEach(function (item) {
+      checkBoxesCheckedValues.push(item.value);
     });
     var filter1 = properties.filter(function (item) {
       return filterValues[0] === 'any' ? true : item.offer.type === filterValues[0];
@@ -81,8 +81,9 @@
       return filterValues[2] === 'any' ? true : filterGuests(item, filterValues);
     }).filter(function (item) {
       return filterValues[3] === 'any' ? true : filterPrice(item);
+    }).filter(function (item) {
+      return checkBoxesCheckedValues.length < 1 ? true : controlFeatures(item, checkBoxesCheckedValues);
     });
-
     return filter1;
   }
 
