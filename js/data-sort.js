@@ -3,8 +3,10 @@
   var PROPERTIES_NUMBER_LIMIT = 5;
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
-  var housingFeatures = document.querySelector('#housing-features').querySelectorAll('.map__checkbox');
-  var checkedBoxes = [].filter.call(housingFeatures, function (el) {
+  var map = document.querySelector('.map');
+  var housingFeatures = map.querySelector('#housing-features');
+  var checkBoxes = housingFeatures.querySelectorAll('.map__checkbox');
+  var checkedBoxes = [].filter.call(checkBoxes, function (el) {
     return el.checked;
   });
 
