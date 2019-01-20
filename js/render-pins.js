@@ -6,6 +6,7 @@
   };
   var pinsWrapper = document.querySelector('.map__pins');
   var similarPinTemplate = document.querySelector('#pin');
+  var properties = [];
 
   function createPinElement(property) {
     var pinElement = similarPinTemplate.cloneNode(true);
@@ -32,45 +33,24 @@
     pinsWrapper.appendChild(fragment);
   }
 
-  function renderPins(data) {
-    var properties = data;
-    var filteredProps = window.dataSort.basicFilter(properties);
-    var housingType = document.querySelector('#housing-type');
-    var housingRooms = document.querySelector('#housing-rooms');
-    var housingGuests = document.querySelector('#housing-guests');
-    var housingPrice = document.querySelector('#housing-price');
-    var housingFeatures = document.querySelector('#housing-features');
-    housingFeatures.addEventListener('click', function () {
-      var filteredData = window.dataSort.mainFilter(properties);
-      window.renderPopups.removeCard();
-      updatePins(filteredData);
-    });
-    housingType.addEventListener('change', function () {
-      var filteredData = window.dataSort.mainFilter(properties);
-      window.renderPopups.removeCard();
-      updatePins(filteredData);
-    });
-    housingRooms.addEventListener('change', function () {
-      var filteredData = window.dataSort.mainFilter(properties);
-      window.renderPopups.removeCard();
-      updatePins(filteredData);
-    });
-    housingGuests.addEventListener('change', function () {
-      var filteredData = window.dataSort.mainFilter(properties);
-      window.renderPopups.removeCard();
-      updatePins(filteredData);
-    });
-    housingPrice.addEventListener('change', function () {
-      var filteredData = window.dataSort.mainFilter(properties);
-      window.renderPopups.removeCard();
-      updatePins(filteredData);
-    });
-    removePins();
-    var fragment = document.createDocumentFragment();
-    filteredProps.forEach(function (value, i) {
-      fragment.appendChild(createPinElement(filteredProps[i]));
-    });
+  var renderSamePins = function () {
+    var filteredData = window.dataSort.mainFilter(properties);
+    window.renderPopups.removeCard();
+    updatePins(filteredData);
+  };
 
+  function renderPins(data) {
+    properties = data;
+    var filteredProps = window.dataSort.basicFilter(properties);
+    var mapFilters = document.querySelector('.map__filters').querySelectorAll('.map__filter');
+    var fragment = document.createDocumentFragment();
+    var housingFeatures = document.querySelector('#housing-features');
+
+    mapFilters.forEach(item => item.addEventListener('change', renderSamePins));
+    housingFeatures.addEventListener('click', renderSamePins);
+    filteredProps.forEach((value, i) => fragment.appendChild(createPinElement(filteredProps[i])));
+
+    removePins();
     pinsWrapper.appendChild(fragment);
   }
 
@@ -84,7 +64,8 @@
 
   window.renderPins = {
     renderPins: renderPins,
-    removePins: removePins
+    removePins: removePins,
+    updatePins: updatePins
   };
 })();
 

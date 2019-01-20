@@ -2,6 +2,11 @@
 (function () {
   var URL = 'https://js.dump.academy/keksobooking/data';
 
+  window.saveData = function (data) {
+    var newData = data;
+    return newData;
+  };
+
   window.dataLoad = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -19,14 +24,9 @@
       }
     });
 
-    xhr.timeout = 10000; // 10s
+    xhr.timeout = 10000;
     xhr.open('GET', URL);
     xhr.send();
-  };
-
-  window.saveData = function (data) {
-    var newData = data;
-    return newData;
   };
 })();
 

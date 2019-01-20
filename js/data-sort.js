@@ -3,6 +3,7 @@
   var PROPERTIES_NUMBER_LIMIT = 5;
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
+  var props = [];
 
   function controlFeatures(item, massive) {
     for (var i = 0; i < massive.length; i++) {
@@ -78,9 +79,16 @@
     return filter1;
   }
 
+  var filterChooseHandler = function () {
+    var filteredData = mainFilter(props);
+    window.renderPopups.removeCard();
+    window.renderPins.updatePins(filteredData);
+  };
+
   window.dataSort = {
     basicFilter: basicFilter,
-    mainFilter: mainFilter
+    mainFilter: mainFilter,
+    filterChooseHandler: filterChooseHandler
   };
 })();
 

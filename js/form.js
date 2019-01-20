@@ -25,8 +25,8 @@
     window.dataUpload(new FormData(form), function () {
       window.pageMode.pageMode();
       window.renderSuccessMessage.renderSuccessMessage();
-      document.addEventListener('click', window.renderSuccessMessage.closeSuccessMessage);
-      document.addEventListener('keydown', window.renderSuccessMessage.onDocumentEscPress);
+      document.addEventListener('keydown', window.renderErrorMessag.onDocumentEscPress);
+      document.addEventListener('click', window.renderErrorMessag.closeSuccessMessage);
     });
     evt.preventDefault();
   });
