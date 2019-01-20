@@ -36,7 +36,9 @@
   var renderSamePins = function () {
     var filteredData = window.dataSort.mainFilter(properties);
     window.renderPopups.removeCard();
-    updatePins(filteredData);
+    window.setTimeout(function () {
+      updatePins(filteredData);
+    }, 500)
   };
 
   function renderPins(data) {
