@@ -19,6 +19,7 @@
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
+
     xhr.timeout = 10000;
     xhr.open('GET', URL);
     xhr.send();

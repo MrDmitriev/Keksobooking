@@ -20,6 +20,8 @@
     '14:00': 2,
   };
 
+  var form = document.querySelector('.ad-form');
+
   var uploadFormData = function () {
     window.pageMode.setPageMode();
     window.renderMessage.renderSuccessMessage();
@@ -27,17 +29,11 @@
     document.addEventListener('click', window.renderMessage.closeSuccessMessage);
   };
 
-  var form = document.querySelector('.ad-form');
-  form.addEventListener('submit', function (evt) {
-    window.dataUpload(new FormData(form), uploadFormData, window.renderMessage.renderErrorMessage);
-    evt.preventDefault();
-  });
-
-  function getSelectedPropertyType() {
+  var getSelectedPropertyType = function () {
     var propertyType = document.querySelector('#type');
     var selectedOption = propertyType.options[propertyType.selectedIndex].value;
     return selectedOption;
-  }
+  };
 
   var setMinPropertyPrice = function () {
     var price = document.querySelector('#price');
@@ -74,6 +70,11 @@
     var timeOutAvailable = TIME_IN_OUT[timeOut];
     timeinOptions[timeOutAvailable].selected = true;
   };
+
+  form.addEventListener('submit', function (evt) {
+    window.dataUpload(new FormData(form), uploadFormData, window.renderMessage.renderErrorMessage);
+    evt.preventDefault();
+  });
 
   window.pageMode.changeFormCondition(true);
 

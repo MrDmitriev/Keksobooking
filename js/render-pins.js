@@ -8,7 +8,7 @@
   var similarPinTemplate = document.querySelector('#pin');
   var properties = [];
 
-  function createPinElement(property) {
+  var createPinElement = function (property) {
     var pinElement = similarPinTemplate.cloneNode(true);
     var similarPinTemplateButton = pinElement.content.querySelector('.map__pin');
     var buttonAvatar = similarPinTemplateButton.querySelector('img');
@@ -23,7 +23,8 @@
 
     return similarPinTemplateButton;
   }
-  function updatePins(propertiesAfterFilter) {
+
+  var updatePins = function (propertiesAfterFilter) {
     removePins();
     var properties = window.filterData.filterPropertiesNumber(propertiesAfterFilter);
     var fragment = document.createDocumentFragment();
@@ -41,7 +42,7 @@
     }, 500)
   };
 
-  function renderPins(data) {
+  var renderPins = function (data) {
     properties = data;
     var filteredProperties = window.filterData.filterPropertiesNumber(properties);
     var mapFilters = document.querySelector('.map__filters').querySelectorAll('.map__filter');
@@ -56,7 +57,7 @@
     pinsWrapper.appendChild(fragment);
   }
 
-  function removePins() {
+  var removePins = function () {
     var mapPins = document.querySelector('.map__pins');
     var buttons = mapPins.querySelectorAll('button');
     for (var i = 1; i < buttons.length; i++) {

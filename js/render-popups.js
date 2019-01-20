@@ -4,7 +4,7 @@
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var ESC_KEYCODE = 27;
 
-  function hideUnusedFeatures(property, template) {
+  var hideUnusedFeatures = function (property, template) {
     for (var i = 0; i < FEATURES.length; i++) {
       var array = property.offer.features;
       var element = FEATURES[i];
@@ -15,9 +15,9 @@
         featureToRemove.classList.remove('popup__feature');
       }
     }
-  }
+  };
 
-  function getPropertyType(property) {
+  var getPropertyType = function (property) {
     var textContent = '';
     switch (property.offer.type) {
       case 'flat':
@@ -34,18 +34,18 @@
     }
 
     return textContent;
-  }
+  };
 
-  function makePhotoImg(property, i) {
+  var makePhotoImg = function (property, i) {
     var photoImg = document.createElement('img');
     photoImg.classList.add('popup__photo');
     photoImg.src = property.offer.photos[i];
     photoImg.width = '45';
     photoImg.height = '40';
     return photoImg;
-  }
+  };
 
-  function createPhotosLibrary(property, template) {
+  var createPhotosLibrary = function (property, template) {
     var similarPhotoTemplate = template.querySelector('.popup__photos');
     var fragmentPhotos = document.createDocumentFragment();
     for (var j = 0; j < PHOTOS_NUMBER; j++) {
@@ -54,9 +54,9 @@
     }
     similarPhotoTemplate.appendChild(fragmentPhotos);
     template.appendChild(similarPhotoTemplate);
-  }
+  };
 
-  function createCardElement(property) {
+  var createCardElement = function (property) {
     var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var cardElement = similarCardTemplate.cloneNode(true);
     var mapClose = cardElement.querySelector('.popup__close');
@@ -75,7 +75,7 @@
     });
 
     return cardElement;
-  }
+  };
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
@@ -83,22 +83,22 @@
     }
   };
 
-  function removeCard() {
+  var removeCard = function () {
     var map = document.querySelector('.map');
     var card = map.querySelector('.map__card');
     if (card) {
       map.removeChild(card);
       document.removeEventListener('keydown', onPopupEscPress);
     }
-  }
+  };
 
-  function createCardsList(properties) {
+  var createCardsList = function (properties) {
     var similarCardsListElement = document.querySelector('.map');
     var fragmentCards = document.createDocumentFragment();
     document.addEventListener('keydown', onPopupEscPress);
     fragmentCards.appendChild(createCardElement(properties));
     similarCardsListElement.insertBefore(fragmentCards, similarCardsListElement.children[1]);
-  }
+  };
 
   window.renderPopups = {
     removeCard: removeCard,

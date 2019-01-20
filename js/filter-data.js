@@ -5,7 +5,7 @@
   var housingGuests = document.querySelector('#housing-guests');
   var propertiesBeforeFilter = [];
 
-  function checkSelectedFeatures(item, massive) {
+  var checkSelectedFeatures = function (item, massive) {
     for (var i = 0; i < massive.length; i++) {
       if (item.offer.features.includes(massive[i])) {
         continue;
@@ -14,7 +14,7 @@
       }
     }
     return true;
-  }
+  };
 
   var filterPropertiesNumber = function (data) {
     var filteredDatas = [];
@@ -28,7 +28,7 @@
     return filteredDatas;
   };
 
-  function filterPrice(item) {
+  var filterPrice = function (item) {
     switch (housingPrice.value) {
       case 'low':
         return item.offer.price < 10000;
@@ -37,13 +37,13 @@
       default:
         return item.offer.price > 50000;
     }
-  }
+  };
 
-  function filterGuests(item, filterValues) {
+  var filterGuests = function (item, filterValues) {
     return housingGuests.value === '0' ? item.offer.guests <= parseInt(filterValues[2], 10) : item.offer.guests >= parseInt(filterValues[2], 10);
-  }
+  };
 
-  function getChoosedValues() {
+  var getChoosedValues = function () {
     var housingType = document.querySelector('#housing-type');
     var housingRooms = document.querySelector('#housing-rooms');
     var filters = [housingType, housingRooms, housingGuests, housingPrice];
@@ -52,9 +52,9 @@
       filtersValues.push(item.value);
     });
     return filtersValues;
-  }
+  };
 
-  function filterProperties(properties) {
+  var filterProperties = function (properties) {
     var filtersValues = getChoosedValues();
     var housingFeatures = document.querySelector('#housing-features');
     var checkboxes = housingFeatures.querySelectorAll('.map__checkbox');
@@ -77,7 +77,7 @@
       return checkboxesCheckedValues.length < 1 ? true : checkSelectedFeatures(item, checkboxesCheckedValues);
     });
     return filteredProperties;
-  }
+  };
 
   var filterChooseHandler = function () {
     var filteredData = filterProperties(propertiesBeforeFilter);

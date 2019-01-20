@@ -4,8 +4,8 @@
 
   window.dataUpload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
 
+    xhr.responseType = 'json';
     xhr.addEventListener('error', function () {
       onError();
     });

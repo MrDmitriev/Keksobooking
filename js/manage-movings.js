@@ -11,7 +11,7 @@
   var COORDINATION_LIMIT_TOP = ADDRESS_Y_INT_MIN - MAIN_PIN.HEIGHT;
   var COORDINATION_LIMIT_BOTTOM = ADDRESS_Y_INT_MAX - MAIN_PIN.HEIGHT;
 
-  function moveMainPin() {
+  var moveMainPin = function () {
     var mapMainPin = document.querySelector('.map__pin--main');
     var map = document.querySelector('.map');
     var mapCoord = map.getBoundingClientRect();
@@ -76,7 +76,7 @@
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
-  }
+  };
 
   moveMainPin();
 })();
