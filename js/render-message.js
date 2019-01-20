@@ -19,7 +19,9 @@
 
   var renderErrorMessage = function (errMessage) {
     errorButton.addEventListener('click', onErrorButtonClick);
-    errorMessage.textContent = errMessage;
+    if (errMessage) {
+      errorMessage.textContent = errMessage;
+    }
     main.appendChild(errorElement);
   };
 
