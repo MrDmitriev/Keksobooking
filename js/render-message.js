@@ -12,7 +12,7 @@
   var successElement = successDiv.cloneNode(true);
 
   var onDocumentEscPress = function (evt) {
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === window.renderPopups.ESC_KEYCODE) {
       closeErrorMessage();
     }
   };
@@ -26,7 +26,7 @@
   };
 
   var onErrorButtonClick = function () {
-    window.dataLoad(window.renderPins.renderPins, renderErrorMessage);
+    window.loadData(window.renderPins.renderPins, renderErrorMessage);
     closeErrorMessage();
   };
 

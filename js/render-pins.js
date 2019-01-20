@@ -23,18 +23,18 @@
 
     return similarPinTemplateButton;
   }
-  function updatePins(props) {
+  function updatePins(propertiesAfterFilter) {
     removePins();
-    var filteredProps = window.dataSort.basicFilter(props);
+    var properties = window.filterData.filterPropertiesNumber(propertiesAfterFilter);
     var fragment = document.createDocumentFragment();
-    filteredProps.forEach(function (value, i) {
-      fragment.appendChild(createPinElement(filteredProps[i]));
+    properties.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(properties[i]));
     });
     pinsWrapper.appendChild(fragment);
   }
 
   var renderSamePins = function () {
-    var filteredData = window.dataSort.mainFilter(properties);
+    var filteredData = window.filterData.filterProperties(properties);
     window.renderPopups.removeCard();
     window.setTimeout(function () {
       updatePins(filteredData);
@@ -43,14 +43,14 @@
 
   function renderPins(data) {
     properties = data;
-    var filteredProps = window.dataSort.basicFilter(properties);
+    var filteredProperties = window.filterData.filterPropertiesNumber(properties);
     var mapFilters = document.querySelector('.map__filters').querySelectorAll('.map__filter');
     var fragment = document.createDocumentFragment();
     var housingFeatures = document.querySelector('#housing-features');
 
     mapFilters.forEach(item => item.addEventListener('change', renderSamePins));
     housingFeatures.addEventListener('click', renderSamePins);
-    filteredProps.forEach((value, i) => fragment.appendChild(createPinElement(filteredProps[i])));
+    filteredProperties.forEach((value, i) => fragment.appendChild(createPinElement(filteredProperties[i])));
 
     removePins();
     pinsWrapper.appendChild(fragment);

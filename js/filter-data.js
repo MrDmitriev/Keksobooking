@@ -3,9 +3,9 @@
   var PROPERTIES_NUMBER_LIMIT = 5;
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
-  var props = [];
+  var propertiesBeforeFilter = [];
 
-  function controlFeatures(item, massive) {
+  function checkSelectedFeatures(item, massive) {
     for (var i = 0; i < massive.length; i++) {
       if (item.offer.features.includes(massive[i])) {
         continue;
@@ -16,16 +16,16 @@
     return true;
   }
 
-  var basicFilter = function (data) {
-    var filteredData = [];
+  var filterPropertiesNumber = function (data) {
+    var filteredDatas = [];
     if (data.length > PROPERTIES_NUMBER_LIMIT) {
       for (var i = 0; i < PROPERTIES_NUMBER_LIMIT; i++) {
-        filteredData[i] = data[i];
+        filteredDatas[i] = data[i];
       }
     } else {
-      filteredData = data;
+      filteredDatas = data;
     }
-    return filteredData;
+    return filteredDatas;
   };
 
   function filterPrice(item) {
@@ -47,47 +47,47 @@
     var housingType = document.querySelector('#housing-type');
     var housingRooms = document.querySelector('#housing-rooms');
     var filters = [housingType, housingRooms, housingGuests, housingPrice];
-    var filtersValue = [];
+    var filtersValues = [];
     filters.forEach(function (item) {
-      filtersValue.push(item.value);
+      filtersValues.push(item.value);
     });
-    return filtersValue;
+    return filtersValues;
   }
 
-  function mainFilter(properties) {
-    var filterValues = getChoosedValues();
+  function filterProperties(properties) {
+    var filtersValues = getChoosedValues();
     var housingFeatures = document.querySelector('#housing-features');
-    var checkBoxes = housingFeatures.querySelectorAll('.map__checkbox');
-    var checkBoxesChecked = [].filter.call(checkBoxes, function (el) {
+    var checkboxes = housingFeatures.querySelectorAll('.map__checkbox');
+    var checkboxesChecked = [].filter.call(checkboxes, function (el) {
       return el.checked;
     });
-    var checkBoxesCheckedValues = [];
-    checkBoxesChecked.forEach(function (item) {
-      checkBoxesCheckedValues.push(item.value);
+    var checkboxesCheckedValues = [];
+    checkboxesChecked.forEach(function (item) {
+      checkboxesCheckedValues.push(item.value);
     });
-    var filter1 = properties.filter(function (item) {
-      return filterValues[0] === 'any' ? true : item.offer.type === filterValues[0];
+    var filteredProperties = properties.filter(function (item) {
+      return filtersValues[0] === 'any' ? true : item.offer.type === filtersValues[0];
     }).filter(function (item) {
-      return filterValues[1] === 'any' ? true : item.offer.rooms === parseInt(filterValues[1], 10);
+      return filtersValues[1] === 'any' ? true : item.offer.rooms === parseInt(filtersValues[1], 10);
     }).filter(function (item) {
-      return filterValues[2] === 'any' ? true : filterGuests(item, filterValues);
+      return filtersValues[2] === 'any' ? true : filterGuests(item, filtersValues);
     }).filter(function (item) {
-      return filterValues[3] === 'any' ? true : filterPrice(item);
+      return filtersValues[3] === 'any' ? true : filterPrice(item);
     }).filter(function (item) {
-      return checkBoxesCheckedValues.length < 1 ? true : controlFeatures(item, checkBoxesCheckedValues);
+      return checkboxesCheckedValues.length < 1 ? true : checkSelectedFeatures(item, checkboxesCheckedValues);
     });
-    return filter1;
+    return filteredProperties;
   }
 
   var filterChooseHandler = function () {
-    var filteredData = mainFilter(props);
+    var filteredData = filterProperties(propertiesBeforeFilter);
     window.renderPopups.removeCard();
     window.renderPins.updatePins(filteredData);
   };
 
-  window.dataSort = {
-    basicFilter: basicFilter,
-    mainFilter: mainFilter,
+  window.filterData = {
+    filterPropertiesNumber: filterPropertiesNumber,
+    filterProperties: filterProperties,
     filterChooseHandler: filterChooseHandler
   };
 })();

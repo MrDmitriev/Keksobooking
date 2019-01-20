@@ -18,10 +18,10 @@
     var mapWidthLimRight = mapCoord.width + MAIN_PIN.PEAK;
     var mapWidthLimLeft = MAIN_PIN.PEAK;
 
-    window.form.setAddress();
+    window.manageForms.setAddress();
 
     mapMainPin.addEventListener('mousedown', function (evt) {
-      window.form.setAddress();
+      window.manageForms.setAddress();
       evt.preventDefault();
 
       var startCoords = {
@@ -60,7 +60,7 @@
         mapMainPin.style.left = newCoordX + 'px';
 
         window.pageMode.changeFormCondition(false);
-        window.form.setAddress();
+        window.manageForms.setAddress();
       };
 
       var onMouseUp = function (upEvt) {
@@ -69,8 +69,8 @@
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
         if (isMapDeactivated) {
-          window.pageMode.pageMode('active');
-          window.form.setAddress();
+          window.pageMode.setPageMode('active');
+          window.manageForms.setAddress();
         }
       };
       document.addEventListener('mousemove', onMouseMove);

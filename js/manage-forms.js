@@ -21,7 +21,7 @@
   };
 
   var uploadFormData = function () {
-    window.pageMode.pageMode();
+    window.pageMode.setPageMode();
     window.renderMessage.renderSuccessMessage();
     document.addEventListener('keydown', window.renderMessage.onDocumentEscPress);
     document.addEventListener('click', window.renderMessage.closeSuccessMessage);
@@ -77,7 +77,7 @@
 
   window.pageMode.changeFormCondition(true);
 
-  window.form = {
+  window.manageForms = {
     MAIN_PIN: {
       SIDE: 62,
       HEIGHT: 84,
@@ -95,7 +95,7 @@
       timeOut.addEventListener('change', setTimeIn);
     },
     setAddress: function () {
-      var adrressCoords = window.form.getMainPinCoords(window.form.chcekMapStatus);
+      var adrressCoords = window.manageForms.getMainPinCoords(window.manageForms.chcekMapStatus);
       var address = document.querySelector('#address');
       address.value = adrressCoords.x + ', ' + adrressCoords.y;
     },
@@ -105,14 +105,14 @@
       var mapCoords = map.getBoundingClientRect();
       var mainPinCoord = mainPin.getBoundingClientRect();
       var mainPinCoords = {
-        x: Math.round(mainPinCoord.x) - Math.round(mapCoords.x) + window.form.MAIN_PIN.SIDE / 2,
-        y: Math.round(mainPinCoord.y - mapCoords.y) + window.form.MAIN_PIN.SIDE / 2 + callback()
+        x: Math.round(mainPinCoord.x) - Math.round(mapCoords.x) + window.manageForms.MAIN_PIN.SIDE / 2,
+        y: Math.round(mainPinCoord.y - mapCoords.y) + window.manageForms.MAIN_PIN.SIDE / 2 + callback()
       };
       return mainPinCoords;
     },
     chcekMapStatus: function () {
       var mapFaded = document.querySelector('.map--faded');
-      var mainPinHwight = mapFaded ? 0 : window.form.MAIN_PIN.ARROW_HEIGHT + window.form.MAIN_PIN.SIDE / 2;
+      var mainPinHwight = mapFaded ? 0 : window.manageForms.MAIN_PIN.ARROW_HEIGHT + window.manageForms.MAIN_PIN.SIDE / 2;
       return mainPinHwight;
     }
   };
