@@ -9,17 +9,18 @@
     changeFormCondition: function (isHidden) {
       var adFormDiv = document.querySelector('.ad-form');
       var fieldsets = adFormDiv.querySelectorAll('fieldset');
-      var adForm = document.querySelector('.notice').querySelector('form');
-      adForm.classList.toggle('ad-form--disabled', isHidden);
-      var resetForm = adForm.querySelector('.ad-form__reset');
+      var form = document.querySelector('.notice').querySelector('form');
+      form.classList.toggle('ad-form--disabled', isHidden);
+      var resetButton = form.querySelector('.ad-form__reset');
       if (isHidden) {
-        resetForm.removeEventListener('click', window.pageMode.onResetClick);
+        resetButton.removeEventListener('click', window.pageMode.onResetClick);
+        form.reset();
       } else {
-        resetForm.addEventListener('click', window.pageMode.onResetClick);
+        resetButton.addEventListener('click', window.pageMode.onResetClick);
       }
-      for (var i = 0; i < fieldsets.length; i++) {
-        fieldsets[i].disabled = isHidden;
-      }
+      fieldsets.forEach(function (item) {
+        item.disabled = isHidden;
+      });
     },
     removeMapFading: function () {
       var map = document.querySelector('.map');

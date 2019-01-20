@@ -102,7 +102,8 @@
 
   window.renderPopups = {
     removeCard: removeCard,
-    createCardsList: createCardsList
+    createCardsList: createCardsList,
+    ESC_KEYCODE: ESC_KEYCODE
   };
 })();
 

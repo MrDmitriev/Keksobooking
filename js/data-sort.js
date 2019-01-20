@@ -4,16 +4,6 @@
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
 
-
-  // var choosedCheckbxs = ['wifi', 'parking', 'washer'];
-  // var properties[1] = ["wifi","dishwasher", "parking", "washer", "elevator", "conditioner"];
-  /*
-    var filter2 = filter1.filter(function (item) {
-      return checkedBoxesValues.length === 0 ? true : controlFeatures(item, checkedBoxesValues);
-    });
-
-    */
-
   function controlFeatures(item, massive) {
     for (var i = 0; i < massive.length; i++) {
       if (item.offer.features.includes(massive[i])) {
@@ -22,6 +12,7 @@
         return false;
       }
     }
+    return true;
   }
 
   var basicFilter = function (data) {

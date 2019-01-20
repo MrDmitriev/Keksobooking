@@ -20,11 +20,28 @@
     '14:00': 2,
   };
 
-  var setMinPropertyPrice = function (event) {
+  var form = document.querySelector('.ad-form');
+  form.addEventListener('submit', function (evt) {
+    window.dataUpload(new FormData(form), function () {
+      window.pageMode.pageMode();
+      window.renderSuccessMessage.renderSuccessMessage();
+      document.addEventListener('click', window.renderSuccessMessage.closeSuccessMessage);
+      document.addEventListener('keydown', window.renderSuccessMessage.onDocumentEscPress);
+    });
+    evt.preventDefault();
+  });
+
+  function getSelectedPropertyType() {
+    var propertyType = document.querySelector('#type');
+    var selectedOption = propertyType.options[propertyType.selectedIndex].value;
+    return selectedOption;
+  }
+
+  var setMinPropertyPrice = function () {
     var price = document.querySelector('#price');
-    var typeValue = event.target.value;
-    price.min = TYPE_TO_MIN_PRICE[typeValue];
-    price.placeholder = TYPE_TO_MIN_PRICE[typeValue];
+    var currentTypeValue = getSelectedPropertyType();
+    price.min = TYPE_TO_MIN_PRICE[currentTypeValue];
+    price.placeholder = TYPE_TO_MIN_PRICE[currentTypeValue];
   };
 
   var setGuestsNumber = function (event) {
@@ -69,6 +86,7 @@
       var roomsSelection = document.querySelector('#room_number');
       var timeIn = document.querySelector('#timein');
       var timeOut = document.querySelector('#timeout');
+      setMinPropertyPrice();
       type.addEventListener('change', setMinPropertyPrice);
       roomsSelection.addEventListener('change', setGuestsNumber);
       timeIn.addEventListener('change', setTimeOut);
