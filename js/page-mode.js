@@ -30,7 +30,7 @@
     pageMode: function (active) {
       if (active) {
         window.form.setElementsValidation();
-        window.dataLoad(window.renderPins.renderPins, window.renderErrorMessage.renderErrorMessage);
+        window.dataLoad(window.renderPins.renderPins, window.renderMessage.renderErrorMessage);
         window.pageMode.changeFormCondition(false);
         window.pageMode.removeMapFading();
       } else {

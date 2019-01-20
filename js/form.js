@@ -24,9 +24,9 @@
   form.addEventListener('submit', function (evt) {
     window.dataUpload(new FormData(form), function () {
       window.pageMode.pageMode();
-      window.renderSuccessMessage.renderSuccessMessage();
-      document.addEventListener('keydown', window.renderErrorMessag.onDocumentEscPress);
-      document.addEventListener('click', window.renderErrorMessag.closeSuccessMessage);
+      window.renderMessage.renderSuccessMessage();
+      document.addEventListener('keydown', window.renderMessage.onDocumentEscPress);
+      document.addEventListener('click', window.renderMessage.closeSuccessMessage);
     });
     evt.preventDefault();
   });
