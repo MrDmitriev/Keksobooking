@@ -28,7 +28,7 @@
     return filteredDatas;
   };
 
-  var filterPrice = function (item) {
+  var filterPropertyPrice = function (item) {
     switch (housingPrice.value) {
       case 'low':
         return item.offer.price < 10000;
@@ -72,7 +72,7 @@
     }).filter(function (item) {
       return filtersValues[2] === 'any' ? true : filterGuests(item, filtersValues);
     }).filter(function (item) {
-      return filtersValues[3] === 'any' ? true : filterPrice(item);
+      return filtersValues[3] === 'any' ? true : filterPropertyPrice(item);
     }).filter(function (item) {
       return checkboxesCheckedValues.length < 1 ? true : checkSelectedFeatures(item, checkboxesCheckedValues);
     });
