@@ -6,7 +6,6 @@
   var main = document.querySelector('main');
   var errorMessage = errorElement.querySelector('.error__message');
   var errorButton = errorElement.querySelector('.error__button');
-
   var successTemplate = document.querySelector('#success');
   var successDiv = successTemplate.content.querySelector('.success');
   var successElement = successDiv.cloneNode(true);

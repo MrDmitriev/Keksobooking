@@ -1,10 +1,13 @@
 'use strict';
 (function () {
   var MAIN_PIN_Y = 375;
+  var mainPin = document.querySelector('.map__pin--main');
+
   window.pageMode = {
     onResetClick: function (evt) {
       evt.preventDefault();
       window.pageMode.setPageMode();
+      mainPin.addEventListener('keydown', window.onMainPinEnterPress);
     },
     changeFormCondition: function (isHidden) {
       var formsConteiner = document.querySelector('.ad-form');
@@ -34,7 +37,6 @@
         window.pageMode.removeMapFading();
       } else {
         var map = document.querySelector('.map');
-        var mainPin = document.querySelector('.map__pin--main');
         window.renderPins.removePins();
         window.renderPopups.removeCard();
         window.pageMode.changeFormCondition(true);
