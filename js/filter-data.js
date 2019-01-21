@@ -3,7 +3,6 @@
   var PROPERTIES_NUMBER_LIMIT = 5;
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
-  var propertiesBeforeFilter = [];
 
   var checkSelectedFeatures = function (item, massive) {
     for (var i = 0; i < massive.length; i++) {
