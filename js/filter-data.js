@@ -65,6 +65,7 @@
     checkboxesChecked.forEach(function (item) {
       checkboxesCheckedValues.push(item.value);
     });
+
     var filteredProperties = properties.filter(function (item) {
       return filtersValues[0] === 'any' ? true : item.offer.type === filtersValues[0];
     }).filter(function (item) {
@@ -79,16 +80,9 @@
     return filteredProperties;
   };
 
-  var filterChooseHandler = function () {
-    var filteredData = filterProperties(propertiesBeforeFilter);
-    window.renderPopups.removeCard();
-    window.renderPins.updatePins(filteredData);
-  };
-
   window.filterData = {
     filterPropertiesNumber: filterPropertiesNumber,
-    filterProperties: filterProperties,
-    filterChooseHandler: filterChooseHandler
+    filterProperties: filterProperties
   };
 })();
 

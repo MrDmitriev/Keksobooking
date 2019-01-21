@@ -54,6 +54,5 @@
     renderSuccessMessage: renderSuccessMessage,
     closeSuccessMessage: closeSuccessMessage
   };
-
 })();
 
