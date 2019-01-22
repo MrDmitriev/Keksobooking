@@ -115,7 +115,8 @@
       var mapFaded = document.querySelector('.map--faded');
       var mainPinHwight = mapFaded ? 0 : window.manageForms.MAIN_PIN.ARROW_HEIGHT + window.manageForms.MAIN_PIN.SIDE / 2;
       return mainPinHwight;
-    }
+    },
+    uploadFormData: uploadFormData
   };
 })();
 

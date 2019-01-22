@@ -7,14 +7,14 @@
 
     xhr.responseType = 'json';
     xhr.addEventListener('error', function () {
-      onError();
+      onError('ошибка отправки формы', 'upload');
     });
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
         onSuccess(xhr.response);
       } else {
-        onError();
+        onError('ошибка отправки формы', 'upload');
       }
     });
 

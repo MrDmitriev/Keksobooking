@@ -9,6 +9,7 @@
   var successTemplate = document.querySelector('#success');
   var successDiv = successTemplate.content.querySelector('.success');
   var successElement = successDiv.cloneNode(true);
+  var form = document.querySelector('.ad-form');
 
   var onDocumentEscPress = function (evt) {
     if (evt.keyCode === window.renderPopups.ESC_KEYCODE) {
@@ -16,18 +17,29 @@
     }
   };
 
-  var renderErrorMessage = function (errMessage) {
-    errorButton.addEventListener('click', onErrorButtonClick);
-    if (errMessage) {
-      errorMessage.textContent = errMessage;
-    }
+  var renderErrorMessage = function (errMessage, type) {
+    errorButton.addEventListener('click', function () {
+      if (type === 'load') {
+        window.loadData(window.renderPins.renderPins, renderErrorMessage);
+      } else if (type === 'upload') {
+        window.dataUpload(new FormData(form), window.manageForms.uploadFormData, renderErrorMessage);
+      }
+
+      closeErrorMessage();
+    });
+    errorMessage.textContent = errMessage;
     main.appendChild(errorElement);
   };
 
-  var onErrorButtonClick = function () {
-    window.loadData(window.renderPins.renderPins, renderErrorMessage);
+  /* var onErrorButtonClick = function (type) {
+    if (type === 'load') {
+      window.loadData(window.renderPins.renderPins, renderErrorMessage);
+    } else if (type === 'upload') {
+      window.dataUpload(new FormData(form), window.uploadFormData, renderErrorMessage);
+    }
+
     closeErrorMessage();
-  };
+  }; */
 
   var closeErrorMessage = function () {
     if (main.querySelector('.success')) {

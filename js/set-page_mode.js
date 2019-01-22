@@ -7,7 +7,6 @@
     onResetClick: function (evt) {
       evt.preventDefault();
       window.pageMode.setPageMode();
-      mainPin.addEventListener('keydown', window.onMainPinEnterPress);
     },
     changeFormCondition: function (isHidden) {
       var formsConteiner = document.querySelector('.ad-form');
@@ -44,6 +43,7 @@
         mainPin.style.top = MAIN_PIN_Y + 'px';
         map.classList.add('map--faded');
         window.manageForms.setAddress();
+        mainPin.addEventListener('keydown', window.onMainPinEnterPress);
       }
     }
   };

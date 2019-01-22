@@ -3,6 +3,10 @@
   var PROPERTIES_NUMBER_LIMIT = 5;
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
+  var PROPERTY_PRICE = {
+    LOW: 10000,
+    HIGH: 50000
+  };
 
   var checkSelectedFeatures = function (item, massive) {
     for (var i = 0; i < massive.length; i++) {
@@ -30,11 +34,11 @@
   var filterPropertyPrice = function (item) {
     switch (housingPrice.value) {
       case 'low':
-        return item.offer.price < 10000;
+        return item.offer.price < PROPERTY_PRICE.LOW;
       case 'middle':
-        return item.offer.price >= 10000 && item.offer.price <= 50000;
+        return item.offer.price >= PROPERTY_PRICE.LOW && item.offer.price <= PROPERTY_PRICE.HIGH;
       default:
-        return item.offer.price > 50000;
+        return item.offer.price > PROPERTY_PRICE.HIGH;
     }
   };
 
