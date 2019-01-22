@@ -34,13 +34,11 @@
     pinsWrapper.appendChild(fragment);
   }
 
-  var renderSamePins = function () {
+  var renderSamePins = window.debounce(function () {
     var filteredData = window.filterData.filterProperties(properties);
     window.renderPopups.removeCard();
-    window.setTimeout(function () {
       updatePins(filteredData);
-    }, 500)
-  };
+    })
 
   var renderPins = function (data) {
     properties = data;

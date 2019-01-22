@@ -31,16 +31,6 @@
     main.appendChild(errorElement);
   };
 
-  /* var onErrorButtonClick = function (type) {
-    if (type === 'load') {
-      window.loadData(window.renderPins.renderPins, renderErrorMessage);
-    } else if (type === 'upload') {
-      window.dataUpload(new FormData(form), window.uploadFormData, renderErrorMessage);
-    }
-
-    closeErrorMessage();
-  }; */
-
   var closeErrorMessage = function () {
     if (main.querySelector('.success')) {
       main.removeChild(successElement);
