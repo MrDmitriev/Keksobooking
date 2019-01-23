@@ -22,23 +22,23 @@
     });
 
     return similarPinTemplateButton;
-  }
+  };
 
   var updatePins = function (propertiesAfterFilter) {
     removePins();
-    var properties = window.filterData.filterPropertiesNumber(propertiesAfterFilter);
+    var filteredProperties = window.filterData.filterPropertiesNumber(propertiesAfterFilter);
     var fragment = document.createDocumentFragment();
-    properties.forEach(function (value, i) {
-      fragment.appendChild(createPinElement(properties[i]));
+    filteredProperties.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(filteredProperties[i]));
     });
     pinsWrapper.appendChild(fragment);
-  }
+  };
 
   var renderSamePins = window.debounce(function () {
     var filteredData = window.filterData.filterProperties(properties);
     window.renderPopups.removeCard();
-      updatePins(filteredData);
-    })
+    updatePins(filteredData);
+  });
 
   var renderPins = function (data) {
     properties = data;
@@ -47,13 +47,17 @@
     var fragment = document.createDocumentFragment();
     var housingFeatures = document.querySelector('#housing-features');
 
-    mapFilters.forEach(item => item.addEventListener('change', renderSamePins));
+    mapFilters.forEach(function (item) {
+      item.addEventListener('change', renderSamePins);
+    });
     housingFeatures.addEventListener('click', renderSamePins);
-    filteredProperties.forEach((value, i) => fragment.appendChild(createPinElement(filteredProperties[i])));
+    filteredProperties.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(filteredProperties[i]));
+    });
 
     removePins();
     pinsWrapper.appendChild(fragment);
-  }
+  };
 
   var removePins = function () {
     var mapPins = document.querySelector('.map__pins');
@@ -61,7 +65,7 @@
     for (var i = 1; i < buttons.length; i++) {
       mapPins.removeChild(buttons[i]);
     }
-  }
+  };
 
   window.renderPins = {
     renderPins: renderPins,

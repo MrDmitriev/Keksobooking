@@ -1,12 +1,10 @@
 'use strict';
 (function () {
-  var PHOTOS_NUMBER = 3;
-  var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var ESC_KEYCODE = 27;
   var PHOTO = {
     WIDTH: '45',
     HEIGHT: '40'
-  }
+  };
 
   var getPropertyType = function (property) {
     var textContent = '';
@@ -29,7 +27,9 @@
 
   var replacePhotos = function (conteiner, oldPhotos, newPhotos) {
     var fragment = document.createDocumentFragment();
-    oldPhotos.forEach(item => conteiner.removeChild(item));
+    oldPhotos.forEach(function (item) {
+      conteiner.removeChild(item);
+    });
     newPhotos.forEach(function (item) {
       var img = document.createElement('img');
       img.classList.add('popup__photo');
@@ -40,11 +40,13 @@
     });
 
     conteiner.appendChild(fragment);
-  }
+  };
 
   var replaceFeatures = function (conteiner, oldFeatures, newFeatures) {
     var fragment = document.createDocumentFragment();
-    oldFeatures.forEach(item => conteiner.removeChild(item));
+    oldFeatures.forEach(function (item) {
+      conteiner.removeChild(item);
+    });
     newFeatures.forEach(function (item) {
       var li = document.createElement('li');
       li.classList.add('popup__feature', 'popup__feature--' + item);
