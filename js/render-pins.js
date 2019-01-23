@@ -62,9 +62,11 @@
 
   var removePins = function () {
     var buttons = pinsWrapper.querySelectorAll('button');
-    for (var i = 1; i < buttons.length; i++) {
-      pinsWrapper.removeChild(buttons[i]);
-    }
+    [].forEach.call(buttons, function (it) {
+      if (!it.classList.contains('map__pin--main')) {
+        pinsWrapper.removeChild(it);
+      }
+    });
   };
 
   window.renderPins = {
