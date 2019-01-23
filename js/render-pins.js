@@ -5,6 +5,7 @@
     HEIGHT: 84
   };
   var pinsWrapper = document.querySelector('.map__pins');
+  var mainPin = pinsWrapper.querySelector('.map__pin--main');
   var similarPinTemplate = document.querySelector('#pin');
   var properties = [];
 
@@ -60,10 +61,9 @@
   };
 
   var removePins = function () {
-    var mapPins = document.querySelector('.map__pins');
-    var buttons = mapPins.querySelectorAll('button');
+    var buttons = pinsWrapper.querySelectorAll('button');
     for (var i = 1; i < buttons.length; i++) {
-      mapPins.removeChild(buttons[i]);
+      pinsWrapper.removeChild(buttons[i]);
     }
   };
 
