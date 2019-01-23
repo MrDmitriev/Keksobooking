@@ -1,14 +1,14 @@
 'use strict';
 (function () {
-  var BASIC_FILTER = 'any';
   var PIN = {
     WIDTH: 62,
     HEIGHT: 84
   };
   var pinsWrapper = document.querySelector('.map__pins');
   var similarPinTemplate = document.querySelector('#pin');
+  var properties = [];
 
-  function createPinElement(property) {
+  var createPinElement = function (property) {
     var pinElement = similarPinTemplate.cloneNode(true);
     var similarPinTemplateButton = pinElement.content.querySelector('.map__pin');
     var buttonAvatar = similarPinTemplateButton.querySelector('img');
@@ -22,46 +22,55 @@
     });
 
     return similarPinTemplateButton;
-  }
-  function updatePins(props) {
+  };
+
+  var updatePins = function (propertiesAfterFilter) {
     removePins();
+    var filteredProperties = window.filterData.filterPropertiesNumber(propertiesAfterFilter);
     var fragment = document.createDocumentFragment();
-    props.forEach(function (value, i) {
-      fragment.appendChild(createPinElement(props[i]));
+    filteredProperties.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(filteredProperties[i]));
     });
     pinsWrapper.appendChild(fragment);
-  }
+  };
 
-  function renderPins(data) {
-    var properties = data;
-    var filteredProps = window.basicFilter(properties);
-    var housingType = document.querySelector('#housing-type');
-    housingType.addEventListener('change', function (event) {
-      var propertyType = event.target.value;
-      var filteredData = window.filterData(properties, propertyType);
-      window.renderPopups.removeCard();
-      updatePins(filteredData);
-    });
-    removePins();
+  var renderSamePins = window.debounce(function () {
+    var filteredData = window.filterData.filterProperties(properties);
+    window.renderPopups.removeCard();
+    updatePins(filteredData);
+  });
+
+  var renderPins = function (data) {
+    properties = data;
+    var filteredProperties = window.filterData.filterPropertiesNumber(properties);
+    var mapFilters = document.querySelector('.map__filters').querySelectorAll('.map__filter');
     var fragment = document.createDocumentFragment();
-    filteredProps.forEach(function (value, i) {
-      fragment.appendChild(createPinElement(filteredProps[i]));
+    var housingFeatures = document.querySelector('#housing-features');
+
+    mapFilters.forEach(function (item) {
+      item.addEventListener('change', renderSamePins);
+    });
+    housingFeatures.addEventListener('click', renderSamePins);
+    filteredProperties.forEach(function (value, i) {
+      fragment.appendChild(createPinElement(filteredProperties[i]));
     });
 
+    removePins();
     pinsWrapper.appendChild(fragment);
-  }
+  };
 
-  function removePins() {
+  var removePins = function () {
     var mapPins = document.querySelector('.map__pins');
     var buttons = mapPins.querySelectorAll('button');
     for (var i = 1; i < buttons.length; i++) {
       mapPins.removeChild(buttons[i]);
     }
-  }
+  };
 
   window.renderPins = {
     renderPins: renderPins,
-    removePins: removePins
+    removePins: removePins,
+    updatePins: updatePins
   };
 })();
 

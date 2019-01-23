@@ -20,11 +20,26 @@
     '14:00': 2,
   };
 
-  var setMinPropertyPrice = function (event) {
+  var form = document.querySelector('.ad-form');
+
+  var uploadFormData = function () {
+    window.pageMode.setPageMode();
+    window.renderMessage.renderSuccessMessage();
+    document.addEventListener('keydown', window.renderMessage.onDocumentEscPress);
+    document.addEventListener('click', window.renderMessage.closeSuccessMessage);
+  };
+
+  var getSelectedPropertyType = function () {
+    var propertyType = document.querySelector('#type');
+    var selectedOption = propertyType.options[propertyType.selectedIndex].value;
+    return selectedOption;
+  };
+
+  var setMinPropertyPrice = function () {
     var price = document.querySelector('#price');
-    var typeValue = event.target.value;
-    price.min = TYPE_TO_MIN_PRICE[typeValue];
-    price.placeholder = TYPE_TO_MIN_PRICE[typeValue];
+    var currentTypeValue = getSelectedPropertyType();
+    price.min = TYPE_TO_MIN_PRICE[currentTypeValue];
+    price.placeholder = TYPE_TO_MIN_PRICE[currentTypeValue];
   };
 
   var setGuestsNumber = function (event) {
@@ -56,9 +71,14 @@
     timeinOptions[timeOutAvailable].selected = true;
   };
 
+  form.addEventListener('submit', function (evt) {
+    window.dataUpload(new FormData(form), uploadFormData, window.renderMessage.renderErrorMessage);
+    evt.preventDefault();
+  });
+
   window.pageMode.changeFormCondition(true);
 
-  window.form = {
+  window.manageForms = {
     MAIN_PIN: {
       SIDE: 62,
       HEIGHT: 84,
@@ -69,13 +89,14 @@
       var roomsSelection = document.querySelector('#room_number');
       var timeIn = document.querySelector('#timein');
       var timeOut = document.querySelector('#timeout');
+      setMinPropertyPrice();
       type.addEventListener('change', setMinPropertyPrice);
       roomsSelection.addEventListener('change', setGuestsNumber);
       timeIn.addEventListener('change', setTimeOut);
       timeOut.addEventListener('change', setTimeIn);
     },
     setAddress: function () {
-      var adrressCoords = window.form.getMainPinCoords(window.form.chcekMapStatus);
+      var adrressCoords = window.manageForms.getMainPinCoords(window.manageForms.chcekMapStatus);
       var address = document.querySelector('#address');
       address.value = adrressCoords.x + ', ' + adrressCoords.y;
     },
@@ -85,16 +106,17 @@
       var mapCoords = map.getBoundingClientRect();
       var mainPinCoord = mainPin.getBoundingClientRect();
       var mainPinCoords = {
-        x: Math.round(mainPinCoord.x) - Math.round(mapCoords.x) + window.form.MAIN_PIN.SIDE / 2,
-        y: Math.round(mainPinCoord.y - mapCoords.y) + window.form.MAIN_PIN.SIDE / 2 + callback()
+        x: Math.round(mainPinCoord.x) - Math.round(mapCoords.x) + window.manageForms.MAIN_PIN.SIDE / 2,
+        y: Math.round(mainPinCoord.y - mapCoords.y) + window.manageForms.MAIN_PIN.SIDE / 2 + callback()
       };
       return mainPinCoords;
     },
     chcekMapStatus: function () {
       var mapFaded = document.querySelector('.map--faded');
-      var mainPinHwight = mapFaded ? 0 : window.form.MAIN_PIN.ARROW_HEIGHT + window.form.MAIN_PIN.SIDE / 2;
+      var mainPinHwight = mapFaded ? 0 : window.manageForms.MAIN_PIN.ARROW_HEIGHT + window.manageForms.MAIN_PIN.SIDE / 2;
       return mainPinHwight;
-    }
+    },
+    uploadFormData: uploadFormData
   };
 })();
 

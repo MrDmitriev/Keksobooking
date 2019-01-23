@@ -2,6 +2,7 @@
 (function () {
   var ADDRESS_Y_INT_MIN = 130;
   var ADDRESS_Y_INT_MAX = 630;
+  var ENTER_KEYCODE = 13;
   var MAIN_PIN = {
     SIDE: 62,
     HEIGHT: 84,
@@ -10,18 +11,27 @@
   };
   var COORDINATION_LIMIT_TOP = ADDRESS_Y_INT_MIN - MAIN_PIN.HEIGHT;
   var COORDINATION_LIMIT_BOTTOM = ADDRESS_Y_INT_MAX - MAIN_PIN.HEIGHT;
+  var mainPin = document.querySelector('.map__pin--main');
 
-  function moveMainPin() {
-    var mapMainPin = document.querySelector('.map__pin--main');
+  window.onMainPinEnterPress = function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      window.pageMode.setPageMode('active');
+      window.manageForms.setAddress();
+    }
+    mainPin.removeEventListener('keydown', window.onMainPinEnterPress);
+  };
+
+  var moveMainPin = function () {
     var map = document.querySelector('.map');
     var mapCoord = map.getBoundingClientRect();
     var mapWidthLimRight = mapCoord.width + MAIN_PIN.PEAK;
     var mapWidthLimLeft = MAIN_PIN.PEAK;
 
-    window.form.setAddress();
+    window.manageForms.setAddress();
+    mainPin.addEventListener('keydown', window.onMainPinEnterPress);
 
-    mapMainPin.addEventListener('mousedown', function (evt) {
-      window.form.setAddress();
+    mainPin.addEventListener('mousedown', function (evt) {
+      window.manageForms.setAddress();
       evt.preventDefault();
 
       var startCoords = {
@@ -36,8 +46,8 @@
           y: startCoords.y - moveEvt.clientY
         };
 
-        var newCoordY = mapMainPin.offsetTop - shift.y;
-        var newCoordX = mapMainPin.offsetLeft - shift.x;
+        var newCoordY = mainPin.offsetTop - shift.y;
+        var newCoordX = mainPin.offsetLeft - shift.x;
 
         startCoords = {
           x: moveEvt.clientX,
@@ -56,11 +66,11 @@
           newCoordX = mapWidthLimRight;
         }
 
-        mapMainPin.style.top = newCoordY + 'px';
-        mapMainPin.style.left = newCoordX + 'px';
+        mainPin.style.top = newCoordY + 'px';
+        mainPin.style.left = newCoordX + 'px';
 
         window.pageMode.changeFormCondition(false);
-        window.form.setAddress();
+        window.manageForms.setAddress();
       };
 
       var onMouseUp = function (upEvt) {
@@ -69,14 +79,14 @@
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
         if (isMapDeactivated) {
-          window.pageMode.pageMode('active');
-          window.form.setAddress();
+          window.pageMode.setPageMode('active');
+          window.manageForms.setAddress();
         }
       };
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
-  }
+  };
 
   moveMainPin();
 })();
