@@ -25,8 +25,6 @@
   var uploadFormData = function () {
     window.pageMode.setPageMode();
     window.renderMessage.renderSuccessMessage();
-    document.addEventListener('keydown', window.renderMessage.onDocumentEscPress);
-    document.addEventListener('click', window.renderMessage.closeSuccessMessage);
   };
 
   var getSelectedPropertyType = function () {

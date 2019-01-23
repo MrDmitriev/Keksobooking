@@ -24,11 +24,11 @@
       } else if (type === 'upload') {
         window.dataUpload(new FormData(form), window.manageForms.uploadFormData, renderErrorMessage);
       }
-
       closeErrorMessage();
     });
     errorMessage.textContent = errMessage;
     main.appendChild(errorElement);
+    document.addEventListener('keydown', onDocumentEscPress);
   };
 
   var closeErrorMessage = function () {
@@ -37,24 +37,24 @@
     } else if (main.querySelector('.error')) {
       main.removeChild(errorElement);
     }
+    document.removeEventListener('keydown', onDocumentEscPress);
   };
 
   var renderSuccessMessage = function () {
-    document.addEventListener('keydown', window.renderMessage.onDocumentEscPress);
+    document.addEventListener('keydown', onDocumentEscPress);
+    document.addEventListener('click', closeSuccessMessage);
     main.appendChild(successElement);
   };
 
   var closeSuccessMessage = function () {
     main.removeChild(successElement);
     document.removeEventListener('click', closeSuccessMessage);
-    document.removeEventListener('keydown', window.renderMessage.onDocumentEscPress);
+    document.removeEventListener('keydown', onDocumentEscPress);
   };
 
   window.renderMessage = {
     renderErrorMessage: renderErrorMessage,
-    onDocumentEscPress: onDocumentEscPress,
-    renderSuccessMessage: renderSuccessMessage,
-    closeSuccessMessage: closeSuccessMessage
+    renderSuccessMessage: renderSuccessMessage
   };
 })();
 
