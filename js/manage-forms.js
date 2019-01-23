@@ -42,8 +42,8 @@
     price.placeholder = TYPE_TO_MIN_PRICE[currentTypeValue];
   };
 
-  var setGuestsNumber = function (event) {
-    var roomsNumber = event.target.value;
+  var setGuestsNumber = function (evt) {
+    var roomsNumber = evt.target.value;
     var capacity = document.querySelector('#capacity');
     var capacityOptions = capacity.querySelectorAll('option');
     var guestsNumberAvailable = ROOMS_TO_AVAILABLE_GUESTS[roomsNumber];
@@ -55,16 +55,16 @@
     capacityOptions[0].selected = true;
   };
 
-  var setTimeOut = function (event) {
-    var timeIn = event.target.value;
+  var setTimeOut = function (evt) {
+    var timeIn = evt.target.value;
     var timeout = document.querySelector('#timeout');
     var timeoutOptions = timeout.querySelectorAll('option');
     var timeInAvailable = TIME_IN_OUT[timeIn];
     timeoutOptions[timeInAvailable].selected = true;
   };
 
-  var setTimeIn = function (event) {
-    var timeOut = event.target.value;
+  var setTimeIn = function (evt) {
+    var timeOut = evt.target.value;
     var timein = document.querySelector('#timein');
     var timeinOptions = timein.querySelectorAll('option');
     var timeOutAvailable = TIME_IN_OUT[timeOut];
