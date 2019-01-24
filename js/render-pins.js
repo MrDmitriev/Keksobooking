@@ -17,6 +17,7 @@
     buttonAvatar.src = property.author.avatar;
     buttonAvatar.alt = property.offer.title;
     similarPinTemplateButton.addEventListener('click', function () {
+      similarPinTemplateButton.classList.add('map__pin--active');
       window.renderPopups.removeCard();
       window.renderPopups.createCardsList(property);
     });
@@ -70,8 +71,7 @@
 
   window.renderPins = {
     renderPins: renderPins,
-    removePins: removePins,
-    updatePins: updatePins
+    removePins: removePins
   };
 })();
 

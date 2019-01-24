@@ -94,7 +94,7 @@
       timeOut.addEventListener('change', setTimeIn);
     },
     setAddress: function () {
-      var adrressCoords = window.manageForms.getMainPinCoords(window.manageForms.chcekMapStatus);
+      var adrressCoords = window.manageForms.getMainPinCoords(window.manageForms.checkMapStatus);
       var address = document.querySelector('#address');
       address.value = adrressCoords.x + ', ' + adrressCoords.y;
     },
@@ -109,10 +109,10 @@
       };
       return mainPinCoords;
     },
-    chcekMapStatus: function () {
+    checkMapStatus: function () {
       var mapFaded = document.querySelector('.map--faded');
-      var mainPinHwight = mapFaded ? 0 : window.manageForms.MAIN_PIN.ARROW_HEIGHT + window.manageForms.MAIN_PIN.SIDE / 2;
-      return mainPinHwight;
+      var mainPinHeight = mapFaded ? 0 : window.manageForms.MAIN_PIN.ARROW_HEIGHT + window.manageForms.MAIN_PIN.SIDE / 2;
+      return mainPinHeight;
     },
     uploadFormData: uploadFormData
   };
