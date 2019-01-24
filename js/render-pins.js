@@ -60,11 +60,12 @@
   };
 
   var removePins = function () {
-    var mapPins = document.querySelector('.map__pins');
-    var buttons = mapPins.querySelectorAll('button');
-    for (var i = 1; i < buttons.length; i++) {
-      mapPins.removeChild(buttons[i]);
-    }
+    var buttons = pinsWrapper.querySelectorAll('button');
+    [].forEach.call(buttons, function (it) {
+      if (!it.classList.contains('map__pin--main')) {
+        pinsWrapper.removeChild(it);
+      }
+    });
   };
 
   window.renderPins = {

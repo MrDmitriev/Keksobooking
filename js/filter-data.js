@@ -10,9 +10,7 @@
 
   var checkSelectedFeatures = function (item, massive) {
     for (var i = 0; i < massive.length; i++) {
-      if (item.offer.features.includes(massive[i])) {
-        continue;
-      } else {
+      if (!item.offer.features.includes(massive[i])) {
         return false;
       }
     }
@@ -21,13 +19,7 @@
 
   var filterPropertiesNumber = function (data) {
     var filteredDatas = [];
-    if (data.length > PROPERTIES_NUMBER_LIMIT) {
-      for (var i = 0; i < PROPERTIES_NUMBER_LIMIT; i++) {
-        filteredDatas[i] = data[i];
-      }
-    } else {
-      filteredDatas = data;
-    }
+    filteredDatas = data.length > PROPERTIES_NUMBER_LIMIT ? data.slice(0, PROPERTIES_NUMBER_LIMIT) : data.slice(0);
     return filteredDatas;
   };
 

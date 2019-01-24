@@ -103,9 +103,9 @@
   };
 
   window.renderPopups = {
+    ESC_KEYCODE: ESC_KEYCODE,
     removeCard: removeCard,
-    createCardsList: createCardsList,
-    ESC_KEYCODE: ESC_KEYCODE
+    createCardsList: createCardsList
   };
 })();
 
