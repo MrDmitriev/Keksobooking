@@ -9,12 +9,15 @@
   };
 
   var checkSelectedFeatures = function (item, massive) {
-    for (var i = 0; i < massive.length; i++) {
-      if (!item.offer.features.includes(massive[i])) {
-        return false;
+    var doesInculde = true;
+    var itemEl = item;
+    var massiveEl = massive;
+    massiveEl.forEach(function (it) {
+      if (!itemEl.offer.features.includes(it)) {
+        doesInculde = false;
       }
-    }
-    return true;
+    });
+    return doesInculde;
   };
 
   var filterPropertiesNumber = function (data) {
