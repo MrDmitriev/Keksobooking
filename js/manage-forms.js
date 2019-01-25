@@ -77,11 +77,6 @@
   window.pageMode.changeFormCondition(true);
 
   window.manageForms = {
-    MAIN_PIN: {
-      SIDE: 62,
-      HEIGHT: 84,
-      ARROW_HEIGHT: 22,
-    },
     setElementsValidation: function () {
       var type = document.querySelector('#type');
       var roomsSelection = document.querySelector('#room_number');
@@ -104,14 +99,14 @@
       var mapCoords = map.getBoundingClientRect();
       var mainPinCoord = mainPin.getBoundingClientRect();
       var mainPinCoords = {
-        x: Math.round(mainPinCoord.x) - Math.round(mapCoords.x) + window.manageForms.MAIN_PIN.SIDE / 2,
-        y: Math.round(mainPinCoord.y - mapCoords.y) + window.manageForms.MAIN_PIN.SIDE / 2 + callback()
+        x: Math.round(mainPinCoord.x) - Math.round(mapCoords.x) + window.utils.MAIN_PIN.SIDE / 2,
+        y: Math.round(mainPinCoord.y - mapCoords.y) + window.utils.MAIN_PIN.SIDE / 2 + callback()
       };
       return mainPinCoords;
     },
     checkMapStatus: function () {
       var mapFaded = document.querySelector('.map--faded');
-      var mainPinHeight = mapFaded ? 0 : window.manageForms.MAIN_PIN.ARROW_HEIGHT + window.manageForms.MAIN_PIN.SIDE / 2;
+      var mainPinHeight = mapFaded ? 0 : window.utils.MAIN_PIN.ARROW_HEIGHT + window.utils.MAIN_PIN.SIDE / 2;
       return mainPinHeight;
     },
     uploadFormData: uploadFormData

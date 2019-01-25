@@ -3,14 +3,8 @@
   var ADDRESS_Y_INT_MIN = 130;
   var ADDRESS_Y_INT_MAX = 630;
   var ENTER_KEYCODE = 13;
-  var MAIN_PIN = {
-    SIDE: 62,
-    HEIGHT: 84,
-    ARROW_HEIGHT: 22,
-    PEAK: 1
-  };
-  var COORDINATION_LIMIT_TOP = ADDRESS_Y_INT_MIN - MAIN_PIN.HEIGHT;
-  var COORDINATION_LIMIT_BOTTOM = ADDRESS_Y_INT_MAX - MAIN_PIN.HEIGHT;
+  var COORDINATION_LIMIT_TOP = ADDRESS_Y_INT_MIN - window.utils.MAIN_PIN.HEIGHT;
+  var COORDINATION_LIMIT_BOTTOM = ADDRESS_Y_INT_MAX - window.utils.MAIN_PIN.HEIGHT;
   var mainPin = document.querySelector('.map__pin--main');
 
   window.onMainPinEnterPress = function (evt) {
@@ -24,8 +18,8 @@
   var moveMainPin = function () {
     var map = document.querySelector('.map');
     var mapCoord = map.getBoundingClientRect();
-    var mapWidthLimRight = mapCoord.width + MAIN_PIN.PEAK;
-    var mapWidthLimLeft = MAIN_PIN.PEAK;
+    var mapWidthLimRight = mapCoord.width + window.utils.MAIN_PIN.PEAK;
+    var mapWidthLimLeft = window.utils.MAIN_PIN.PEAK;
 
     window.manageForms.setAddress();
     mainPin.addEventListener('keydown', window.onMainPinEnterPress);

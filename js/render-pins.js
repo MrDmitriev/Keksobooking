@@ -4,9 +4,17 @@
     WIDTH: 62,
     HEIGHT: 84
   };
+  var ACTIVE_PIN_SELECTOR = 'map__pin--active';
   var pinsWrapper = document.querySelector('.map__pins');
   var similarPinTemplate = document.querySelector('#pin');
   var properties = [];
+
+  var removeSelector = function (selector) {
+    var buttons = document.querySelector('.map').querySelectorAll('.map__pin');
+    buttons.forEach(function (item) {
+      item.classList.remove(selector);
+    });
+  };
 
   var createPinElement = function (property) {
     var pinElement = similarPinTemplate.cloneNode(true);
@@ -17,7 +25,8 @@
     buttonAvatar.src = property.author.avatar;
     buttonAvatar.alt = property.offer.title;
     similarPinTemplateButton.addEventListener('click', function () {
-      similarPinTemplateButton.classList.add('map__pin--active');
+      removeSelector(ACTIVE_PIN_SELECTOR);
+      similarPinTemplateButton.classList.add(ACTIVE_PIN_SELECTOR);
       window.renderPopups.removeCard();
       window.renderPopups.createCardsList(property);
     });
