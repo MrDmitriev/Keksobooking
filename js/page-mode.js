@@ -6,7 +6,7 @@
   window.pageMode = {
     onResetClick: function (evt) {
       evt.preventDefault();
-      window.pageMode.setPageMode();
+      window.pageMode.set();
     },
     changeFormCondition: function (isHidden) {
       var formsConteiner = document.querySelector('.ad-form');
@@ -23,26 +23,26 @@
         item.disabled = isHidden;
       });
     },
-    removeMapFading: function () {
+    activate: function () {
       var map = document.querySelector('.map');
       map.classList.remove('map--faded');
     },
 
-    setPageMode: function (active) {
+    set: function (active) {
       if (active) {
-        window.manageForms.setElementsValidation();
-        window.loadData(window.renderPins.renderPins, window.renderMessage.renderErrorMessage);
+        window.forms.setValidation();
+        window.loadData(window.pins.render, window.message.renderError);
         window.pageMode.changeFormCondition(false);
-        window.pageMode.removeMapFading();
+        window.pageMode.activate();
       } else {
         var map = document.querySelector('.map');
-        window.renderPins.removePins();
-        window.renderPopups.removeCard();
+        window.pins.remove();
+        window.popups.remove();
         window.pageMode.changeFormCondition(true);
         mainPin.style.left = '';
         mainPin.style.top = MAIN_PIN_Y + 'px';
         map.classList.add('map--faded');
-        window.manageForms.setAddress();
+        window.forms.setAddress();
         mainPin.addEventListener('keydown', window.onMainPinEnterPress);
       }
     }

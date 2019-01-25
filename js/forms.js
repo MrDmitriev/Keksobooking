@@ -22,9 +22,9 @@
 
   var form = document.querySelector('.ad-form');
 
-  var uploadFormData = function () {
-    window.pageMode.setPageMode();
-    window.renderMessage.renderSuccessMessage();
+  var uploadData = function () {
+    window.pageMode.set();
+    window.message.renderSuccess();
   };
 
   var getSelectedPropertyType = function () {
@@ -70,19 +70,19 @@
   };
 
   form.addEventListener('submit', function (evt) {
-    window.dataUpload(new FormData(form), uploadFormData, window.renderMessage.renderErrorMessage);
+    window.dataUpload(new FormData(form), uploadData, window.message.renderError);
     evt.preventDefault();
   });
 
   window.pageMode.changeFormCondition(true);
 
-  window.manageForms = {
+  window.forms = {
     MAIN_PIN: {
       SIDE: 62,
       HEIGHT: 84,
       ARROW_HEIGHT: 22,
     },
-    setElementsValidation: function () {
+    setValidation: function () {
       var type = document.querySelector('#type');
       var roomsSelection = document.querySelector('#room_number');
       var timeIn = document.querySelector('#timein');
@@ -94,7 +94,7 @@
       timeOut.addEventListener('change', setTimeIn);
     },
     setAddress: function () {
-      var adrressCoords = window.manageForms.getMainPinCoords(window.manageForms.chcekMapStatus);
+      var adrressCoords = window.forms.getMainPinCoords(window.forms.chcekMapStatus);
       var address = document.querySelector('#address');
       address.value = adrressCoords.x + ', ' + adrressCoords.y;
     },
@@ -104,17 +104,17 @@
       var mapCoords = map.getBoundingClientRect();
       var mainPinCoord = mainPin.getBoundingClientRect();
       var mainPinCoords = {
-        x: Math.round(mainPinCoord.x) - Math.round(mapCoords.x) + window.manageForms.MAIN_PIN.SIDE / 2,
-        y: Math.round(mainPinCoord.y - mapCoords.y) + window.manageForms.MAIN_PIN.SIDE / 2 + callback()
+        x: Math.round(mainPinCoord.x) - Math.round(mapCoords.x) + window.forms.MAIN_PIN.SIDE / 2,
+        y: Math.round(mainPinCoord.y - mapCoords.y) + window.forms.MAIN_PIN.SIDE / 2 + callback()
       };
       return mainPinCoords;
     },
     chcekMapStatus: function () {
       var mapFaded = document.querySelector('.map--faded');
-      var mainPinHwight = mapFaded ? 0 : window.manageForms.MAIN_PIN.ARROW_HEIGHT + window.manageForms.MAIN_PIN.SIDE / 2;
+      var mainPinHwight = mapFaded ? 0 : window.forms.MAIN_PIN.ARROW_HEIGHT + window.forms.MAIN_PIN.SIDE / 2;
       return mainPinHwight;
     },
-    uploadFormData: uploadFormData
+    uploadData: uploadData
   };
 })();
 

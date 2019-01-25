@@ -78,7 +78,7 @@
     return filteredProperties;
   };
 
-  window.filterData = {
+  window.filters = {
     filterPropertiesNumber: filterPropertiesNumber,
     filterProperties: filterProperties
   };
