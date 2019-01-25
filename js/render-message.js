@@ -12,7 +12,7 @@
   var form = document.querySelector('.ad-form');
 
   var onDocumentEscPress = function (evt) {
-    if (evt.keyCode === window.renderPopups.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       closeErrorMessage();
     }
   };

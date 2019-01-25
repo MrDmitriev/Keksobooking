@@ -5,9 +5,9 @@
     LOW: 10000,
     HIGH: 50000
   };
-
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
+
   var checkSelectedFeatures = function (item, massive) {
     for (var i = 0; i < massive.length; i++) {
       if (!item.offer.features.includes(massive[i])) {

@@ -1,10 +1,10 @@
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
   var PHOTO = {
     WIDTH: '45',
     HEIGHT: '40'
   };
+  var map = document.querySelector('.map');
 
   var getPropertyType = function (property) {
     var textContent = '';
@@ -82,13 +82,12 @@
   };
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removeCard();
     }
   };
 
   var removeCard = function () {
-    var map = document.querySelector('.map');
     var card = map.querySelector('.map__card');
     if (card) {
       map.removeChild(card);
@@ -97,13 +96,11 @@
   };
 
   var createCardsList = function (properties) {
-    var similarCardsListElement = document.querySelector('.map');
     document.addEventListener('keydown', onPopupEscPress);
-    similarCardsListElement.insertBefore(createCardElement(properties), similarCardsListElement.children[1]);
+    map.insertBefore(createCardElement(properties), map.children[1]);
   };
 
   window.renderPopups = {
-    ESC_KEYCODE: ESC_KEYCODE,
     removeCard: removeCard,
     createCardsList: createCardsList
   };
