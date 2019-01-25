@@ -3,6 +3,8 @@
   var PROPERTIES_NUMBER_LIMIT = 5;
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
+  var housingType = document.querySelector('#housing-type');
+  var housingRooms = document.querySelector('#housing-rooms');
   var PROPERTY_PRICE = {
     LOW: 10000,
     HIGH: 50000
@@ -42,8 +44,6 @@
   };
 
   var getChoosedValues = function () {
-    var housingType = document.querySelector('#housing-type');
-    var housingRooms = document.querySelector('#housing-rooms');
     var filters = [housingType, housingRooms, housingGuests, housingPrice];
     var filtersValues = [];
     filters.forEach(function (item) {
@@ -54,8 +54,7 @@
 
   var filterProperties = function (properties) {
     var filtersValues = getChoosedValues();
-    var housingFeatures = document.querySelector('#housing-features');
-    var checkboxes = housingFeatures.querySelectorAll('.map__checkbox');
+    var checkboxes = document.querySelector('#housing-features').querySelectorAll('.map__checkbox');
     var checkboxesChecked = [].filter.call(checkboxes, function (el) {
       return el.checked;
     });

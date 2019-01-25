@@ -21,6 +21,8 @@
   };
 
   var form = document.querySelector('.ad-form');
+  var propertyType = document.querySelector('#type');
+  var propertyPrice = document.querySelector('#price');
 
   var uploadData = function () {
     window.pageMode.set();
@@ -28,16 +30,14 @@
   };
 
   var getSelectedPropertyType = function () {
-    var propertyType = document.querySelector('#type');
     var selectedOption = propertyType.options[propertyType.selectedIndex].value;
     return selectedOption;
   };
 
   var setMinPropertyPrice = function () {
-    var price = document.querySelector('#price');
     var currentTypeValue = getSelectedPropertyType();
-    price.min = TYPE_TO_MIN_PRICE[currentTypeValue];
-    price.placeholder = TYPE_TO_MIN_PRICE[currentTypeValue];
+    propertyPrice.min = TYPE_TO_MIN_PRICE[currentTypeValue];
+    propertyPrice.placeholder = TYPE_TO_MIN_PRICE[currentTypeValue];
   };
 
   var setGuestsNumber = function (evt) {
@@ -55,16 +55,14 @@
 
   var setTimeOut = function (evt) {
     var timeIn = evt.target.value;
-    var timeout = document.querySelector('#timeout');
-    var timeoutOptions = timeout.querySelectorAll('option');
+    var timeoutOptions = document.querySelector('#timeout').querySelectorAll('option');
     var timeInAvailable = TIME_IN_OUT[timeIn];
     timeoutOptions[timeInAvailable].selected = true;
   };
 
   var setTimeIn = function (evt) {
     var timeOut = evt.target.value;
-    var timein = document.querySelector('#timein');
-    var timeinOptions = timein.querySelectorAll('option');
+    var timeinOptions = document.querySelector('#timein').querySelectorAll('option');
     var timeOutAvailable = TIME_IN_OUT[timeOut];
     timeinOptions[timeOutAvailable].selected = true;
   };
@@ -83,12 +81,11 @@
       ARROW_HEIGHT: 22,
     },
     setValidation: function () {
-      var type = document.querySelector('#type');
       var roomsSelection = document.querySelector('#room_number');
       var timeIn = document.querySelector('#timein');
       var timeOut = document.querySelector('#timeout');
       setMinPropertyPrice();
-      type.addEventListener('change', setMinPropertyPrice);
+      propertyType.addEventListener('change', setMinPropertyPrice);
       roomsSelection.addEventListener('change', setGuestsNumber);
       timeIn.addEventListener('change', setTimeOut);
       timeOut.addEventListener('change', setTimeIn);

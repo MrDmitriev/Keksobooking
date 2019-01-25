@@ -2,6 +2,7 @@
 (function () {
   var MAIN_PIN_Y = 375;
   var mainPin = document.querySelector('.map__pin--main');
+  var map = document.querySelector('.map');
 
   window.pageMode = {
     onResetClick: function (evt) {
@@ -24,7 +25,6 @@
       });
     },
     activate: function () {
-      var map = document.querySelector('.map');
       map.classList.remove('map--faded');
     },
 
@@ -35,7 +35,6 @@
         window.pageMode.changeFormCondition(false);
         window.pageMode.activate();
       } else {
-        var map = document.querySelector('.map');
         window.pins.remove();
         window.popups.remove();
         window.pageMode.changeFormCondition(true);

@@ -5,6 +5,7 @@
     HEIGHT: '40'
   };
   var map = document.querySelector('.map');
+  var card = map.querySelector('.map__card');
 
   var getPropertyType = function (property) {
     var textContent = '';
@@ -57,7 +58,7 @@
   };
 
   var createCardElement = function (property) {
-    var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+    var similarCardTemplate = document.querySelector('#card').content.card;
     var cardElement = similarCardTemplate.cloneNode(true);
     var mapClose = cardElement.querySelector('.popup__close');
     var featuresConteiner = cardElement.querySelector('.popup__features');
@@ -88,7 +89,6 @@
   };
 
   var remove = function () {
-    var card = map.querySelector('.map__card');
     if (card) {
       map.removeChild(card);
       document.removeEventListener('keydown', onPopupEscPress);
