@@ -6,6 +6,7 @@
   };
   var pinsWrapper = document.querySelector('.map__pins');
   var similarPinTemplate = document.querySelector('#pin');
+  var housingFeatures = document.querySelector('#housing-features');
   var properties = [];
 
   var createPinElement = function (property) {
@@ -43,9 +44,8 @@
   var render = function (data) {
     properties = data;
     var filteredProperties = window.filters.filterPropertiesNumber(properties);
-    var mapFilters = document.querySelector('.map__filters').querySelectorAll('.map__filter');
+    var mapFilters = document.querySelectorAll('.map__filter');
     var fragment = document.createDocumentFragment();
-    var housingFeatures = document.querySelector('#housing-features');
 
     mapFilters.forEach(function (item) {
       item.addEventListener('change', renderSamePins);
