@@ -10,10 +10,10 @@
 
   var checkSelectedFeatures = function (item, massive) {
     var doesInculde = true;
-    var itemEl = item;
-    var massiveEl = massive;
-    massiveEl.forEach(function (it) {
-      if (!itemEl.offer.features.includes(it)) {
+    var property = item;
+    var selectedFeatures = massive;
+    selectedFeatures.forEach(function (it) {
+      if (!property.offer.features.includes(it)) {
         doesInculde = false;
       }
     });
