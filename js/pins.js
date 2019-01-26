@@ -7,7 +7,15 @@
   var pinsWrapper = document.querySelector('.map__pins');
   var similarPinTemplate = document.querySelector('#pin');
   var housingFeatures = document.querySelector('#housing-features');
+  var ACTIVE_PIN_SELECTOR = 'map__pin--active';
   var properties = [];
+
+  var removeSelector = function (selector) {
+    var buttons = document.querySelector('.map').querySelectorAll('.map__pin');
+    buttons.forEach(function (item) {
+      item.classList.remove(selector);
+    });
+  };
 
   var createPinElement = function (property) {
     var pinElement = similarPinTemplate.cloneNode(true);
@@ -18,6 +26,8 @@
     buttonAvatar.src = property.author.avatar;
     buttonAvatar.alt = property.offer.title;
     similarPinTemplateButton.addEventListener('click', function () {
+      removeSelector(ACTIVE_PIN_SELECTOR);
+      similarPinTemplateButton.classList.add(ACTIVE_PIN_SELECTOR);
       window.popups.remove();
       window.popups.createList(property);
     });

@@ -58,7 +58,7 @@
   };
 
   var createCardElement = function (property) {
-    var similarCardTemplate = document.querySelector('#card');
+    var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var cardElement = similarCardTemplate.cloneNode(true);
     var mapClose = cardElement.querySelector('.popup__close');
     var featuresConteiner = cardElement.querySelector('.popup__features');
