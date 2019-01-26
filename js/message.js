@@ -17,12 +17,12 @@
     }
   };
 
-  var renderErrorMessage = function (errMessage, type) {
+  var renderError = function (errMessage, type) {
     errorButton.addEventListener('click', function () {
       if (type === 'load') {
-        window.loadData(window.renderPins.renderPins, renderErrorMessage);
+        window.loadData(window.pins.render, renderError);
       } else if (type === 'upload') {
-        window.dataUpload(new FormData(form), window.manageForms.uploadFormData, renderErrorMessage);
+        window.dataUpload(new FormData(form), window.forms.uploadFormData, renderError);
       }
       closeErrorMessage();
     });
@@ -40,7 +40,7 @@
     document.removeEventListener('keydown', onDocumentEscPress);
   };
 
-  var renderSuccessMessage = function () {
+  var renderSuccess = function () {
     document.addEventListener('keydown', onDocumentEscPress);
     document.addEventListener('click', closeSuccessMessage);
     main.appendChild(successElement);
@@ -52,9 +52,9 @@
     document.removeEventListener('keydown', onDocumentEscPress);
   };
 
-  window.renderMessage = {
-    renderErrorMessage: renderErrorMessage,
-    renderSuccessMessage: renderSuccessMessage
+  window.message = {
+    renderError: renderError,
+    renderSuccess: renderSuccess
   };
 })();
 
