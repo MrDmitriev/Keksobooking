@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var SUCCESS_UPLOAD = 200;
+  var TIMEOUT_VALUE = 1000;
   var URL = 'https://js.dump.academy/keksobooking';
 
   window.dataUpload = function (data, onSuccess, onError) {
@@ -11,14 +13,14 @@
     });
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_UPLOAD) {
         onSuccess(xhr.response);
       } else {
         onError('ошибка отправки формы', 'upload');
       }
     });
 
-    xhr.timeout = 1000;
+    xhr.timeout = TIMEOUT_VALUE;
     xhr.open('POST', URL);
     xhr.send(data);
   };
