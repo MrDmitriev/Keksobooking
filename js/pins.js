@@ -35,8 +35,8 @@
     return similarPinTemplateButton;
   };
 
-  var update = function (propertiesAfterFilter) {
-    remove();
+  var updatePins = function (propertiesAfterFilter) {
+    removePin();
     var filteredProperties = window.filters.filterPropertiesNumber(propertiesAfterFilter);
     var fragment = document.createDocumentFragment();
     filteredProperties.forEach(function (value, i) {
@@ -48,10 +48,10 @@
   var renderSamePins = window.debounce(function () {
     var filteredData = window.filters.filterProperties(properties);
     window.popups.remove();
-    update(filteredData);
+    updatePins(filteredData);
   });
 
-  var render = function (data) {
+  var renderPin = function (data) {
     properties = data;
     var filteredProperties = window.filters.filterPropertiesNumber(properties);
     var mapFilters = document.querySelectorAll('.map__filter');
@@ -65,11 +65,11 @@
       fragment.appendChild(createPinElement(filteredProperties[i]));
     });
 
-    remove();
+    removePin();
     pinsWrapper.appendChild(fragment);
   };
 
-  var remove = function () {
+  var removePin = function () {
     var buttons = pinsWrapper.querySelectorAll('button');
     [].forEach.call(buttons, function (it) {
       if (!it.classList.contains('map__pin--main')) {
@@ -79,9 +79,8 @@
   };
 
   window.pins = {
-    render: render,
-    remove: remove,
-    update: update
+    render: renderPin,
+    remove: removePin
   };
 })();
 

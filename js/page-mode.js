@@ -10,17 +10,27 @@
       window.pageMode.set();
     },
     changeFormCondition: function (isHidden) {
-      var formsConteiner = document.querySelector('.ad-form');
-      var fieldsets = formsConteiner.querySelectorAll('fieldset');
-      formsConteiner.classList.toggle('ad-form--disabled', isHidden);
-      var resetButton = formsConteiner.querySelector('.ad-form__reset');
+      var formsContainer = document.querySelector('.ad-form');
+      var filtersContainerForm = document.querySelector('.map__filters');
+      var fieldsets = formsContainer.querySelectorAll('fieldset');
+      var resetButton = formsContainer.querySelector('.ad-form__reset');
+      var filters = document.querySelector('.map').querySelectorAll('.map__filter');
+      var checkboxes = document.querySelector('.map').querySelectorAll('.map__checkbox');
+      formsContainer.classList.toggle('ad-form--disabled', isHidden);
+      filtersContainerForm.classList.toggle('map__filters--disabled', isHidden);
       if (isHidden) {
         resetButton.removeEventListener('click', window.pageMode.onResetClick);
-        formsConteiner.reset();
+        formsContainer.reset();
       } else {
         resetButton.addEventListener('click', window.pageMode.onResetClick);
       }
       fieldsets.forEach(function (item) {
+        item.disabled = isHidden;
+      });
+      filters.forEach(function (item) {
+        item.disabled = isHidden;
+      });
+      checkboxes.forEach(function (item) {
         item.disabled = isHidden;
       });
     },

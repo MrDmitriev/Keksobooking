@@ -1,14 +1,14 @@
 'use strict';
 (function () {
   var PROPERTIES_NUMBER_LIMIT = 5;
+  var PropertyPrice = {
+    LOW: 10000,
+    HIGH: 50000
+  };
   var housingPrice = document.querySelector('#housing-price');
   var housingGuests = document.querySelector('#housing-guests');
   var housingType = document.querySelector('#housing-type');
   var housingRooms = document.querySelector('#housing-rooms');
-  var PROPERTY_PRICE = {
-    LOW: 10000,
-    HIGH: 50000
-  };
 
   var checkSelectedFeatures = function (item, massive) {
     var doesInculde = true;
@@ -23,19 +23,19 @@
   };
 
   var filterPropertiesNumber = function (data) {
-    var filteredDatas = [];
-    filteredDatas = data.length > PROPERTIES_NUMBER_LIMIT ? data.slice(0, PROPERTIES_NUMBER_LIMIT) : data.slice(0);
-    return filteredDatas;
+    var filteredData = [];
+    filteredData = data.length > PROPERTIES_NUMBER_LIMIT ? data.slice(0, PROPERTIES_NUMBER_LIMIT) : data.slice(0);
+    return filteredData;
   };
 
   var filterPropertyPrice = function (item) {
     switch (housingPrice.value) {
       case 'low':
-        return item.offer.price < PROPERTY_PRICE.LOW;
+        return item.offer.price < PropertyPrice.LOW;
       case 'middle':
-        return item.offer.price >= PROPERTY_PRICE.LOW && item.offer.price <= PROPERTY_PRICE.HIGH;
+        return item.offer.price >= PropertyPrice.LOW && item.offer.price <= PropertyPrice.HIGH;
       default:
-        return item.offer.price > PROPERTY_PRICE.HIGH;
+        return item.offer.price > PropertyPrice.HIGH;
     }
   };
 
@@ -43,7 +43,7 @@
     return housingGuests.value === '0' ? item.offer.guests <= parseInt(filterValues[2], 10) : item.offer.guests >= parseInt(filterValues[2], 10);
   };
 
-  var getChoosedValues = function () {
+  var getSelectedValues = function () {
     var filters = [housingType, housingRooms, housingGuests, housingPrice];
     var filtersValues = [];
     filters.forEach(function (item) {
@@ -53,7 +53,7 @@
   };
 
   var filterProperties = function (properties) {
-    var filtersValues = getChoosedValues();
+    var filtersValues = getSelectedValues();
     var checkboxes = document.querySelector('#housing-features').querySelectorAll('.map__checkbox');
     var checkboxesChecked = [].filter.call(checkboxes, function (el) {
       return el.checked;
