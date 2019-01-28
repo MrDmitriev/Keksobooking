@@ -6,7 +6,15 @@
   };
   var pinsWrapper = document.querySelector('.map__pins');
   var similarPinTemplate = document.querySelector('#pin');
+  var housingFeatures = document.querySelector('#housing-features');
   var properties = [];
+
+  var removeSelector = function (selector) {
+    var buttons = document.querySelector('.map').querySelectorAll('.map__pin');
+    buttons.forEach(function (item) {
+      item.classList.remove(selector);
+    });
+  };
 
   var createPinElement = function (property) {
     var pinElement = similarPinTemplate.cloneNode(true);
@@ -17,16 +25,18 @@
     buttonAvatar.src = property.author.avatar;
     buttonAvatar.alt = property.offer.title;
     similarPinTemplateButton.addEventListener('click', function () {
-      window.renderPopups.removeCard();
-      window.renderPopups.createCardsList(property);
+      removeSelector(window.utils.ACTIVE_PIN_SELECTOR);
+      similarPinTemplateButton.classList.add(window.utils.ACTIVE_PIN_SELECTOR);
+      window.popups.remove();
+      window.popups.createList(property);
     });
 
     return similarPinTemplateButton;
   };
 
   var updatePins = function (propertiesAfterFilter) {
-    removePins();
-    var filteredProperties = window.filterData.filterPropertiesNumber(propertiesAfterFilter);
+    removePin();
+    var filteredProperties = window.filters.filterPropertiesNumber(propertiesAfterFilter);
     var fragment = document.createDocumentFragment();
     filteredProperties.forEach(function (value, i) {
       fragment.appendChild(createPinElement(filteredProperties[i]));
@@ -35,17 +45,16 @@
   };
 
   var renderSamePins = window.debounce(function () {
-    var filteredData = window.filterData.filterProperties(properties);
-    window.renderPopups.removeCard();
+    var filteredData = window.filters.filterProperties(properties);
+    window.popups.remove();
     updatePins(filteredData);
   });
 
-  var renderPins = function (data) {
+  var renderPin = function (data) {
     properties = data;
-    var filteredProperties = window.filterData.filterPropertiesNumber(properties);
-    var mapFilters = document.querySelector('.map__filters').querySelectorAll('.map__filter');
+    var filteredProperties = window.filters.filterPropertiesNumber(properties);
+    var mapFilters = document.querySelectorAll('.map__filter');
     var fragment = document.createDocumentFragment();
-    var housingFeatures = document.querySelector('#housing-features');
 
     mapFilters.forEach(function (item) {
       item.addEventListener('change', renderSamePins);
@@ -55,11 +64,11 @@
       fragment.appendChild(createPinElement(filteredProperties[i]));
     });
 
-    removePins();
+    removePin();
     pinsWrapper.appendChild(fragment);
   };
 
-  var removePins = function () {
+  var removePin = function () {
     var buttons = pinsWrapper.querySelectorAll('button');
     [].forEach.call(buttons, function (it) {
       if (!it.classList.contains('map__pin--main')) {
@@ -68,10 +77,10 @@
     });
   };
 
-  window.renderPins = {
-    renderPins: renderPins,
-    removePins: removePins,
-    updatePins: updatePins
+  window.pins = {
+    render: renderPin,
+    remove: removePin,
+    removeSelector: removeSelector
   };
 })();
 
