@@ -81,6 +81,7 @@
     replaceFeatures(featuresContainer, features, property.offer.features);
     replacePhotos(photosContainer, photos, property.offer.photos);
     mapClose.addEventListener('click', function () {
+      window.pins.removeSelector(window.utils.ACTIVE_PIN_SELECTOR);
       removeCard();
     });
 
@@ -89,6 +90,7 @@
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
+      window.pins.removeSelector(window.utils.ACTIVE_PIN_SELECTOR);
       removeCard();
     }
   };

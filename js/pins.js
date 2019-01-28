@@ -7,7 +7,6 @@
   var pinsWrapper = document.querySelector('.map__pins');
   var similarPinTemplate = document.querySelector('#pin');
   var housingFeatures = document.querySelector('#housing-features');
-  var ACTIVE_PIN_SELECTOR = 'map__pin--active';
   var properties = [];
 
   var removeSelector = function (selector) {
@@ -26,8 +25,8 @@
     buttonAvatar.src = property.author.avatar;
     buttonAvatar.alt = property.offer.title;
     similarPinTemplateButton.addEventListener('click', function () {
-      removeSelector(ACTIVE_PIN_SELECTOR);
-      similarPinTemplateButton.classList.add(ACTIVE_PIN_SELECTOR);
+      removeSelector(window.utils.ACTIVE_PIN_SELECTOR);
+      similarPinTemplateButton.classList.add(window.utils.ACTIVE_PIN_SELECTOR);
       window.popups.remove();
       window.popups.createList(property);
     });
@@ -80,7 +79,8 @@
 
   window.pins = {
     render: renderPin,
-    remove: removePin
+    remove: removePin,
+    removeSelector: removeSelector
   };
 })();
 

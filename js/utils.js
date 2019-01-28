@@ -7,6 +7,7 @@
       ARROW_HEIGHT: 22,
       PEAK: 1
     },
-    ESC_KEYCODE: 27
+    ESC_KEYCODE: 27,
+    ACTIVE_PIN_SELECTOR: 'map__pin--active'
   };
 })();
