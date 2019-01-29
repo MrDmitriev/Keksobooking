@@ -78,8 +78,8 @@
   };
 
   window.filters = {
-    filterPropertiesNumber: filterPropertiesNumber,
-    filterProperties: filterProperties
+    propertiesNumber: filterPropertiesNumber,
+    properties: filterProperties
   };
 })();
 

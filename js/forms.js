@@ -110,8 +110,7 @@
       var mapFaded = document.querySelector('.map--faded');
       var mainPinHeight = mapFaded ? 0 : window.forms.MAIN_PIN.ARROW_HEIGHT + window.forms.MAIN_PIN.SIDE / 2;
       return mainPinHeight;
-    },
-    uploadData: uploadData
+    }
   };
 })();
 
