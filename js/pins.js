@@ -45,7 +45,7 @@
   };
 
   var renderSamePins = window.debounce(function () {
-    var filteredData = window.filters.filterProperties(properties);
+    var filteredData = window.filters.properties(properties);
     window.popups.remove();
     updatePins(filteredData);
   });
