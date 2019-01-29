@@ -36,7 +36,7 @@
 
   var updatePins = function (propertiesAfterFilter) {
     removePin();
-    var filteredProperties = window.filters.filterPropertiesNumber(propertiesAfterFilter);
+    var filteredProperties = window.filters.propertiesNumber(propertiesAfterFilter);
     var fragment = document.createDocumentFragment();
     filteredProperties.forEach(function (value, i) {
       fragment.appendChild(createPinElement(filteredProperties[i]));
@@ -52,7 +52,7 @@
 
   var renderPin = function (data) {
     properties = data;
-    var filteredProperties = window.filters.filterPropertiesNumber(properties);
+    var filteredProperties = window.filters.propertiesNumber(properties);
     var mapFilters = document.querySelectorAll('.map__filter');
     var fragment = document.createDocumentFragment();
 
